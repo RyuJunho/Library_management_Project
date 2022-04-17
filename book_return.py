@@ -19,9 +19,9 @@ def Return_tree_click(event):
     selected_item = Return_tree.focus() # 트리뷰 선택
     getValue = Return_tree.item(selected_item, 'values')
     if (selected_item != ""): # 선택한 트리뷰가 있을 경우
-        AppCheckBox = messagebox.askokcancel("도서반납", "반납하시겠습니까?")
-        if AppCheckBox == 1:
-            AppYesBox = messagebox.showinfo("반납완료", "반납되었습니다.")
+        ReCheckBox = messagebox.askokcancel("도서반납", "반납하시겠습니까?")
+        if ReCheckBox == 1:
+            ReYesBox = messagebox.showinfo("반납완료", "반납되었습니다.")
             if (selected_item != ""):
                 Return_tree.delete(selected_item) # 선택한 트리뷰 데이터 삭제
 
@@ -54,8 +54,8 @@ Rent_Label = Label(main, text="반납",font=(None, 14))
 Rent_Label.pack(anchor=CENTER, pady=20)
 
 # 트리뷰 컬럼 설정
-columns = ('B_name', 'writer', 'ISBN', 'returnday')
-Return_tree = Treeview(main, columns=columns, show='headings')
+Return_columns = ('B_name', 'writer', 'ISBN', 'returnday')
+Return_tree = Treeview(main, columns=Return_columns, show='headings')
 Return_tree.pack(pady=10)
 
 # 각 컬럼 설정
