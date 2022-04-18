@@ -40,22 +40,23 @@ def book_search(main) :    #도서검색(매개변수 = 초기화면)  #나중�
 
     # 트리뷰(표) 생성
     # 표를 main에 부착
-    B_SrhTreeV = Treeview(frame, columns=["one","two","three"])
+    Search_columns = ('B_name', 'writer', 'ISBN', 'RentPossi')
+    B_SrhTreeV = Treeview(frame, columns=Search_columns, show='headings')
     B_SrhTreeV.pack(pady=10)
-
+    
     # 각 컬럼 설정
     #'도서명'컬럼
-    B_SrhTreeV.column("#0", width=140)
-    B_SrhTreeV.heading("#0", text="도서명")
+    B_SrhTreeV.column("B_name", width=140)
+    B_SrhTreeV.heading("B_name", text="도서명")
     #'저자'컬럼
-    B_SrhTreeV.column("#1", width=120)
-    B_SrhTreeV.heading("one", text="저자")
+    B_SrhTreeV.column("writer", width=120)
+    B_SrhTreeV.heading("writer", text="저자")
     #'ISBN'컬럼
-    B_SrhTreeV.column("#2", width=120)
-    B_SrhTreeV.heading("two", text="ISBN")
+    B_SrhTreeV.column("ISBN", width=120)
+    B_SrhTreeV.heading("ISBN", text="ISBN")
     #'대출가능여부'컬럼
-    B_SrhTreeV.column("#3", width=120)
-    B_SrhTreeV.heading("three", text="대출가능여부")
+    B_SrhTreeV.column("RentPossi", width=120)
+    B_SrhTreeV.heading("RentPossi", text="대출가능여부")
 
     # 표에 삽입될 데이터 (아직 구현 x)
 
