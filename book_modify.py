@@ -43,90 +43,96 @@ def modify():
 main = Tk()
 main.geometry("800x500")
 
+frame = Frame(main)
+
 # def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
 
 # '도서 정보 수정' 레이블 생성 글자크기 설정
 # '도서 정보 수정' 레이블을 main에 부착
-B_ModLabel = Label(main, text ="도서 정보 수정", font=(None,12))
-B_ModLabel.pack(side=TOP, ipadx=320, pady=20)
+B_ModLabel = Label(frame, text ="도서 정보 수정", font=(None,12))
+B_ModLabel.grid(row=1,column=1,pady=10)
+
+BMod_frame_1 = Frame(frame)
+BMod_frame_1.grid(row=2,column=1)
 
 # '도서명' 레이블 생성
 # '도서명' 레이블을 main에 부착
-B_MnameLabel = Label(main, text="도서명")
-B_MnameLabel.place(x = 180,y = 60)
+B_MnameLabel = Label(BMod_frame_1, text="도서명")
+B_MnameLabel.grid(row=1,column=1,padx=10 ,pady=10)
 
 # '도서명' 엔트리(텍스트박스) 생성
 # '도서명' 엔트리를 main에 부착
-B_MnameEntry = Entry(main, width=50)
-B_MnameEntry.place(x = 240,y = 60)
+B_MnameEntry = Entry(BMod_frame_1, width=50)
+B_MnameEntry.grid(row=1,column=2)
 
 # '출판사' 레이블 생성
 # '출판사' 레이블을 main에 부착
-B_MPubLabel = Label(main, text ="출판사")
-B_MPubLabel.place(x = 180,y = 100)
+B_MPubLabel = Label(BMod_frame_1, text ="출판사")
+B_MPubLabel.grid(row=2,column=1,pady=10)
 
 # '출판사' 엔트리(텍스트박스) 생성
 # '출판사' 엔트리를 main에 부착
-B_MPubEntry = Entry(main, width=50)
-B_MPubEntry.place(x = 240,y = 100)
+B_MPubEntry = Entry(BMod_frame_1, width=50)
+B_MPubEntry.grid(row=2,column=2)
 
 # 'ISBN' 레이블 생성
 # 'ISBN' 레이블을 main에 부착
-B_MISBNLabel = Label(main, text ="ISBN")
-B_MISBNLabel.place(x = 180,y = 140)
+B_MISBNLabel = Label(BMod_frame_1, text ="ISBN")
+B_MISBNLabel.grid(row=3,column=1,pady=10)
 
 # 'ISBN' 엔트리(텍스트박스) 생성
 # 'ISBN' 엔트리를 main에 부착
-B_MISBNEntry = Entry(main, width=50)
-B_MISBNEntry.place(x = 240,y = 140)
+B_MISBNEntry = Entry(BMod_frame_1, width=50)
+B_MISBNEntry.grid(row=3,column=2)
 
 # '관련링크' 이블 생성
 # '관련링크' 레이블을 main에 부착
-B_MLinkLabel = Label(main, text ="관련링크")
-B_MLinkLabel.place(x = 180,y = 180)
+B_MLinkLabel = Label(BMod_frame_1, text ="관련링크")
+B_MLinkLabel.grid(row=4,column=1,pady=10)
 
 # '관련링크' 엔트리(텍스트박스) 생성
 # '관련링크' 엔트리를 main에 부착
-B_MLinkEntry = Entry(main, width=50)
-B_MLinkEntry.place(x = 240,y = 180)
+B_MLinkEntry = Entry(BMod_frame_1, width=50)
+B_MLinkEntry.grid(row=4,column=2)
 
 # '저자' 레이블 생성
 # '저자' 레이블을 main에 부착
-B_MWirLabel = Label(main, text ="저자")
-B_MWirLabel.place(x = 180,y = 220)
+B_MWirLabel = Label(BMod_frame_1, text ="저자")
+B_MWirLabel.grid(row=5,column=1,pady=10)
+
+BMod_frame_2 = Frame(BMod_frame_1)
+BMod_frame_2.grid(row=5,column=2)
 
 # '저자' 엔트리(텍스트박스) 생성
 # '저자' 엔트리를 main에 부착
-B_MWirEntry = Entry(main, width=20)
-B_MWirEntry.place(x = 240,y = 220)
+B_MWirEntry = Entry(BMod_frame_2, width=23)
+B_MWirEntry.grid(row=1,column=1)
 
-# '저자' 레이블 생성
-# '저자' 레이블을 main에 부착
-B_MPriLabel = Label(main, text ="가격")
-B_MPriLabel.place(x = 420,y = 220)
+# '가격' 레이블 생성
+# '가격' 레이블을 main에 부착
+B_MPriLabel = Label(BMod_frame_2, text ="가격")
+B_MPriLabel.grid(row=1,column=2,padx=10)
 
-# '저자' 엔트리(텍스트박스) 생성
-# '저자' 엔트리를 main에 부착
-B_MPriEntry = Entry(main, width=16)
-B_MPriEntry.place(x = 478,y = 220)
+# '가격' 엔트리(텍스트박스) 생성
+# '가격' 엔트리를 main에 부착
+B_MPriEntry = Entry(BMod_frame_2, width=20)
+B_MPriEntry.grid(row=1,column=3)
 
 # '도서소개' 레이블 생성
 # '도서소개' 레이블을 main에 부착
-B_MIntrLabel = Label(main, text ="도서소개")
-B_MIntrLabel.pack(side=LEFT, padx=40, pady=20)
+B_MIntrLabel = Label(frame, text ="도서소개")
+B_MIntrLabel.grid(row=3,column=1,pady=10)
 
 # '도서소개' 스크롤텍스트(ScrolledText) 생성
 # '도서소개' 스크롤텍스트(ScrolledText) main에 부착
-B_MIntrscr = scrolledtext.ScrolledText(main, width=100, height=10, wrap=WORD)
-B_MIntrscr.place(x = 40,y = 300)
+B_MIntrscr = scrolledtext.ScrolledText(frame, width=100, height=10, wrap=WORD)
+B_MIntrscr.grid(row=4,column=1)
 
 
 # '수정'버튼 생성 (command = modify)
 # 버튼을 main 부착
-B_MAppButton = Button(main,text="수정", width=8, command=modify)
-B_MAppButton.place(x = 320,y = 450)
+B_MAppButton = Button(frame,text="수정", width=8, command=modify)
+B_MAppButton.grid(row=5,column=1,pady=30)
 
-B_MCancButton = Button(main,text="취소", width=8)
-B_MCancButton.place(x = 420,y = 450)
-
+frame.pack()
 main.mainloop()
