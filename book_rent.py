@@ -206,25 +206,26 @@ R_search_frame.pack()
 
 # 트리뷰(표) 생성
 # 표를 main에 부착
-Rent_ShrTreeV = Treeview(main, columns=["one","two","three"])
+Rent_columns = ('B_name', 'writer', 'ISBN', 'RentPossi')
+Rent_ShrTreeV = Treeview(main, columns=Rent_columns, show='headings') 
 Rent_ShrTreeV.pack(pady=10)
 Rent_ShrTreeV.bind("<<TreeviewSelect>>", click_item)
 
 # 각 컬럼 설정
 #'도서명'컬럼
-Rent_ShrTreeV.column("#0", width=140)
-Rent_ShrTreeV.heading("#0", text="도서명")
+Rent_ShrTreeV.column("B_name", width=140)
+Rent_ShrTreeV.heading("B_name", text="도서명")
 #'저자'컬럼
-Rent_ShrTreeV.column("#1", width=120)
-Rent_ShrTreeV.heading("one", text="저자")
+Rent_ShrTreeV.column("writer", width=120)
+Rent_ShrTreeV.heading("writer", text="저자")
 #'ISBN'컬럼
-Rent_ShrTreeV.column("#2", width=120)
-Rent_ShrTreeV.heading("two", text="ISBN")
+Rent_ShrTreeV.column("ISBN", width=120)
+Rent_ShrTreeV.heading("ISBN", text="ISBN")
 #'대출가능여부'컬럼
-Rent_ShrTreeV.column("#3", width=120)
-Rent_ShrTreeV.heading("three", text="대출가능여부")
+Rent_ShrTreeV.column("RentPossi", width=120)
+Rent_ShrTreeV.heading("RentPossi", text="대출가능여부")
 # 표에 삽입될 데이터 (아직 구현 x)
-Rent_treelist=[("Tom", 80, False), ("Bani", 71, True), ("Boni", 90, True), ("Dannel", 78, True), ("Minho", 93, True)]
+Rent_treelist=[(1,"Tom", 80, False), (1,"Bani", 71, True), (1,"Boni", 90, True), (1,"Dannel", 78, True), (1,"Minho", 93, True)]
 
 # 표에 데이터 삽입 (아직 구현 x)
 for i in range(len(Rent_treelist)):
