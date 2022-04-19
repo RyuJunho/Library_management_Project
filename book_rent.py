@@ -24,7 +24,7 @@ def book_rent(main) :
     def click_item(event):
         selectedItem = Rent_ShrTreeV.focus()
         getValue = Rent_ShrTreeV.item(selectedItem, 'values')
-        Book_rent() # 새창 불러오는 함수 사용
+        Book_info() # 새창 불러오는 함수 사용
 
     # 트리튜 클릭 시 나오는 새창
     def Book_info():
@@ -130,7 +130,7 @@ def book_rent(main) :
         # '도서소개' 스크롤텍스트(ScrolledText) 생성
         # '도서소개' 스크롤텍스트 읽기전용으로 상태설정
         # '도서소개' 스크롤텍스트(ScrolledText) main에 부착
-        B_RIntrscr = scrolledtext.ScrolledText(frame, width=100, height=10, wrap=WORD)
+        B_RIntrscr = scrolledtext.ScrolledText(frame, width=100, height=8, wrap=WORD)
         B_RIntrscr.insert("1.0","파이썬은 간결한 코드로도 엄청나게 많은 일을 할 수 있으며, 이것이 지금의 영예를 누릴 수 있게 된 가장 중요한 이유이다. 특히 최근의 컴퓨터 과학 분야에서 가장 중요한 영역이라 할 데이터 과학에 최적인 언어이면서, 기계학습과 인공지능 분야의 소프트웨어 개발을 가장 효율적으로 해낼 수 있는 언어이다. 저자들은 독자들에게 파이썬의 문법을 설명하는 일 이상을 하고 싶었다. 그러한 이유로 파이썬의 강력한 능력을 드러내어, 더 깊고 풍부한 프로그래밍의 세계로 독자를 안내하기 위해 이 책을 기획하였다.")
         B_RIntrscr.config(state='disabled')
         B_RIntrscr.grid(row=4,column=1)
@@ -139,11 +139,10 @@ def book_rent(main) :
         B_RentButton = Button(frame,text="대출", width=8, command=book_rentButton)
         B_RentButton.grid(row=5,column=1,pady=30)
         # else(대출이 불가능한 경우):
-        '''
-        대여 중인 도서일 경우 이름과 반납예정일
+    
         NoRent_TreeV = Treeview(frame, columns=["one"])
         NoRent_TreeV.grid(row=5,column=1,pady=10)
-        NoRent_TreeV.configure(height=2)
+        NoRent_TreeV.configure(height=1)
         # 각 컬럼 설정
         #'도서명'컬럼
         NoRent_TreeV.column("#0", width=80)
@@ -154,13 +153,11 @@ def book_rent(main) :
         
         B_RentButton = Button(frame,text="대출", width=8, command=book_rentButton)
         B_RentButton.grid(row=6,column=1)
-        '''
+        
         frame.pack()
         rent_main.mainloop()
-
-
-    # 전화번호 입력 창
-    phone_serch = Tk()
+        
+    phone_serch = Toplevel(main)
     phone_serch.geometry("320x120")
 
     # 전화번호 입력 창 레이블
@@ -174,12 +171,8 @@ def book_rent(main) :
     # 전화번호 입력 창 버튼
     P_ShrButton = Button(phone_serch,text="입력", width=8, command=Phone_input)
     P_ShrButton.pack(side=LEFT)
-
-    phone_serch.mainloop()
-
-
+    
     frame = Frame(main)
-
     # '대출' 레이블 생성 글자크기 설정
     # 레이블을 main윈도우에 부착
     Rent_Label = Label(frame, text="대출",font=(None, 14))
@@ -230,8 +223,10 @@ def book_rent(main) :
     # 표에 삽입될 데이터 (아직 구현 x)
     Rent_treelist=[(1,"Tom", 80, False), (1,"Bani", 71, True), (1,"Boni", 90, True), (1,"Dannel", 78, True), (1,"Minho", 93, True)]
 
+    
     # 표에 데이터 삽입 (아직 구현 x)
     for i in range(len(Rent_treelist)):
         Rent_ShrTreeV.insert('', 'end', text=i, values=Rent_treelist[i], iid=str(i)+"번")
 
     return frame
+

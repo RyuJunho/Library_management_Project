@@ -12,7 +12,7 @@ def book_return(main) :
             if PhoneCheckBox == 1:
                 phone_serch.destroy() # 확인을 누르면 창 닫기
         else:
-            PhoneErBox = messagebox.showerror("확인불가", "존재하지 않는 회원입니다.")
+            PhoneErBox = messagebox.showerror("확인불가", "존재하지 않은 회원입니다.")
 
 
     # 트리뷰 클릭 이벤트(트리뷰 데이터 삭제)
@@ -27,8 +27,7 @@ def book_return(main) :
                     Return_tree.delete(selected_item) # 선택한 트리뷰 데이터 삭제
 
 
-    # 전화번호 입력 창
-    phone_serch = Tk()
+    phone_serch = Toplevel(main)
     phone_serch.geometry("320x120")
 
     # 전화번호 입력 창 레이블
@@ -42,12 +41,6 @@ def book_return(main) :
     # 전화번호 입력 창 버튼
     P_ShrButton = Button(phone_serch,text="입력", width=8, command=Phone_input)
     P_ShrButton.pack(side=LEFT)
-    phone_serch.mainloop()
-
-
-    # 임시 윈도우
-    main = Tk()
-    main.geometry("800x500")
 
     frame = Frame(main)
 
