@@ -25,7 +25,7 @@ def book_append(main) :    #도서등록(매개변수 = 초기화면)  #나중�
             # 엔트리와 텍스트의 내용을 비움
             if AppCheckBox == 1:
                 if B_ISBNEntry.get().isdigit() and B_PriEntry.get().isdigit(): # 가격과 ISBN이 숫자인 경우
-                    book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_BasicRent.csv')
+                    book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
                     book_append_p = book_Pandas.book_append(B_ISBNEntry.get(),B_nameEntry.get(), B_WirEntry.get(), B_PubEntry.get(), B_PriEntry.get(), B_LinkEntry.get(), B_Intrscr.get("1.0", "end-1c"))
                     # ISBN 중복 되면 메시지박스 출력 후 등록화면창으로 돌아감
                     if book_append_p == True:   # 도서 추가 함수 리턴값이 True일 때 도서 추가 불가능 메세지 띄움

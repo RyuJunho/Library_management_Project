@@ -88,7 +88,7 @@ class Panda:
                 rent_df_insert = pd.DataFrame(data=rent_df_insert)  # 새로운 데이터프레임에 등록하고자 하는 rent_df_insert 데이터 저장
                 self.user_rent_df = pd.concat([self.user_rent_df, rent_df_insert]).sort_values(by=['제목'],
                                                                                                axis=0)  # 기존에 있던 유저 데이터 프레임에 rent_df_insert 데이터 추가
-                self.user_rent_df.to_csv('User_rent.csv', encoding='utf-8', index=False)  # 대여한 데이터를 확인하기 위한 csv 파일 생성
+                self.user_rent_df.to_csv('Book_rent.csv', encoding='utf-8', index=False)  # 대여한 데이터를 확인하기 위한 csv 파일 생성
         else:
             print("존재하지 않는 회원입니다.\n")  # 대여하고자하는 회원이 존재하지 않는 경우
 
