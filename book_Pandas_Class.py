@@ -10,7 +10,7 @@ class Panda:
         self.Book_df = pd.read_csv(book).sort_values(by=['제목'],axis=0)  # 데이터 프레임을 공유하기 위해 self로 데이터 프레임 생성
         self.User_df = pd.read_csv(user).sort_values(by=['이름'], axis=0)  # 회원 존재 여부를 확인하기 위한 데이터 프레임 생성
         self.user_rent_df = pd.read_csv(rent).sort_values(by=['제목'], axis=0)  # 대출관리 초기 데이터를 데이터 프레임으로 생성
-
+        
     def book_search(self, combo):  # 도서 검색
         if combo == "제목":  # 콤보 박스를 제목으로 선택했을 때
             data_Tsearch = input("제목을 입력하세요 : ")  # 제목 데이터
@@ -23,26 +23,19 @@ class Panda:
                                                                                                     '대여여부']])  # 저자 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
             return B_search_np
 
-    def book_append(self):  # 도서 추가
-        check_ISBN = int(input("ISBN을 입력하세요 : "))
-        if (self.Book_df['ISBN'] == check_ISBN).any():  # 동일한 ISBN이 하나라도 있는지 판별
+    def book_append(self, check_ISBN, title, author, pub, price, link, explanation):  # 도서 추가
+        app_df = self.Book_df[(self.Book_df["ISBN"] == int(check_ISBN))]
+        if (app_df['ISBN'] == int(check_ISBN)).any():  # 동일한 ISBN이 하나라도 있는지 판별
             print('중복된 ISBN입니다.')
+            return True
         else:
-            title = input("제목")
-            author = input("저자")
-            pub = input("출판사")
-            price = int(input("가격"))
-            link = input("관련링크")
-            explanation = input("도서설명")
-
             data_to_insert = ([{'ISBN': check_ISBN, '제목': title, '저자': author, '출판사': pub, '가격': price, '관련링크': link,
                                 '도서설명': explanation, '대여여부': False}])  # 입력한 데이터를 딕셔너리로 생성
-
             df_to_insert = pd.DataFrame(data=data_to_insert)  # 새로운 데이터프레임에 등록하고자 하는 data_to_insert 데이터 저장
             self.Book_df = pd.concat([self.Book_df, df_to_insert]).sort_values(by=['제목'],
                                                                                axis=0)  # 기존의 데이터프레임 df와 새로운 데이터프레임 df_to_insert를 제목 기준 오름차순으로 병합
             self.Book_df.to_csv('Book_list.csv', encoding='utf-8', index=False)  # 등록된 데이터프레임을 확인하는 csv 파일 생성
-
+            
     def book_modify(self):  # 도서 수정
         check_ISBN = int(input("ISBN을 입력하세요 : "))
         if (self.Book_df['ISBN'] == check_ISBN).any():  # 동일한 ISBN 하나라도 있는지 확인
@@ -95,7 +88,7 @@ class Panda:
                 rent_df_insert = pd.DataFrame(data=rent_df_insert)  # 새로운 데이터프레임에 등록하고자 하는 rent_df_insert 데이터 저장
                 self.user_rent_df = pd.concat([self.user_rent_df, rent_df_insert]).sort_values(by=['제목'],
                                                                                                axis=0)  # 기존에 있던 유저 데이터 프레임에 rent_df_insert 데이터 추가
-                self.user_rent_df.to_csv('Book_rent.csv', encoding='utf-8', index=False)  # 대여한 데이터를 확인하기 위한 csv 파일 생성
+                self.user_rent_df.to_csv('User_rent.csv', encoding='utf-8', index=False)  # 대여한 데이터를 확인하기 위한 csv 파일 생성
         else:
             print("존재하지 않는 회원입니다.\n")  # 대여하고자하는 회원이 존재하지 않는 경우
 
@@ -118,26 +111,8 @@ class Panda:
             print("존재하지 않은 회원입니다.\n")  # 반납하고자하는 회원이 존재하지 않는 경우
 
 
-def csv_data(data, CSV_titles):  # 도서 초기 빈 csv 파일 생성
-    if os.path.isfile(data): # 동일한 csv가 있는지 판별
-        print("생성불가")
-        pass
-    else:
-        with open(data, 'w', encoding='UTF-8') as f:
-            w = csv.writer(f)
-            w.writerow(CSV_titles)
-
-
-# 빈 도서 csv, 빈 대출관리csv 파일 생성
-#B_CSV_titles = ['ISBN', '제목', '저자', '출판사', '가격', '관련링크', '도서설명', '대여여부']
-#R_CSV_titles = ['ISBN', '제목', '전화번호', '대여여부', '대여일', '대여여부']
-#csv_data('Book_list.csv', B_CSV_titles)
-#csv_data('User_rent.csv', R_CSV_titles)
-
-
-
 ''' 클래스 코드 확인 용
-book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_BasicRent.csv')
+book_Pandas = Panda('Book_list.csv', 'user_list.csv','User_rent.csv.csv')
 
 book_Pandas.book_search("제목")
 book_Pandas.book_append()
