@@ -113,7 +113,7 @@ def csv_data(data, CSV_titles):  # 도서 초기 빈 csv 파일 생성
 
 # 빈 도서 csv, 빈 대출관리csv 파일 생성
 B_CSV_titles = ['ISBN', '제목', '저자', '출판사', '가격', '관련링크', '도서설명', '대여여부']
-R_CSV_titles = ['ISBN', '제목', '전화번호', '대여여부', '대여일', '대여여부']
+R_CSV_titles = ['ISBN', '전화번호', '대여여부', '대여일', '반납예정일']
 csv_data('Book_list.csv', B_CSV_titles)
 csv_data('Book_rent.csv', R_CSV_titles)
 
