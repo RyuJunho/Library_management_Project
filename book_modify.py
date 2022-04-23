@@ -2,18 +2,18 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import scrolledtext
 from tkinter import messagebox
-
+from book_Pandas_Class import*
 
 def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
     # 수정 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def modify():
-        print('추가 버튼 클릭')
+        print('수정 버튼 클릭')
         # 빈칸이 있으면
         # 메시지박스 출력 후 수정화면창으로 돌아감
         if len(B_MnameEntry.get()) == 0 or len(B_MPubEntry.get()) == 0 or len(B_MISBNEntry.get()) == 0 or len(
                 B_MLinkEntry.get()) == 0 or len(B_MPriEntry.get()) == 0 or len(B_MWirEntry.get()) == 0 or len(
-                B_MIntrscr.get("1.0", "end-1c")) == 0:
-            MobErBox = messagebox.showerror("미입력", "빈칸이 존재합니다.\n빈칸을 입력하세요.")
+                B_MIntrscr.get("1.0", "end")) == 0:
+            messagebox.showerror("미입력", "빈칸이 존재합니다.\n빈칸을 입력하세요.")
 
         # ISBN 중복 되면 (아직 구현 x)
         # 메시지박스 출력 후 수정화면창으로 돌아감
@@ -30,18 +30,24 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
             # 수정되었다는 메시지박스 출력 (확인)
             # 엔트리와 텍스트의 내용을 비움
             if MobCheckBox == 1:
-                AppYesBox = messagebox.showinfo("수정완료", "수정되었습니다.")
-                B_MnameEntry.delete(0, "end")
-                B_MPubEntry.delete(0, "end")
-                B_MISBNEntry.delete(0, "end")
-                B_MLinkEntry.delete(0, "end")
-                B_MWirEntry.delete(0, "end")
-                B_MPriEntry.delete(0, "end")
-                B_MIntrscr.delete("1.0", "end")
+                book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
+                book_modify_p = book_Pandas.book_modify(B_MISBNEntry.get(),B_MnameEntry.get(), B_MWirEntry.get(), B_MPubEntry.get(), 
+                                                        B_MPriEntry.get(), B_MLinkEntry.get(), B_MIntrscr.get("1.0", "end"))
+                if book_modify_p == True:
+                    messagebox.showinfo("수정완료", "수정되었습니다.")
+                    B_MnameEntry.delete(0, "end")
+                    B_MPubEntry.delete(0, "end")
+                    B_MISBNEntry.delete(0, "end")
+                    B_MLinkEntry.delete(0, "end")
+                    B_MWirEntry.delete(0, "end")
+                    B_MPriEntry.delete(0, "end")
+                    B_MIntrscr.delete("1.0", "end")
+                else:
+                    messagebox.showerror("미등록 도서", "등록되지 않은 도서입니다.")
             # '아니오'를 누를경우
             # 수정화면창으로 돌아감 (내용을 비우지 않음)
             else:
-                ModNoBox = messagebox.showinfo("수정취소", "수정이 취소 되었습니다.")
+                messagebox.showinfo("수정취소", "수정이 취소 되었습니다.")
 
     frame = Frame(main)
 

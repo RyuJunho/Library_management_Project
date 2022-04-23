@@ -36,20 +36,14 @@ class Panda:
                                                                                axis=0)  # 기존의 데이터프레임 df와 새로운 데이터프레임 df_to_insert를 제목 기준 오름차순으로 병합
             self.Book_df.to_csv('Book_list.csv', encoding='utf-8', index=False)  # 등록된 데이터프레임을 확인하는 csv 파일 생성
             
-    def book_modify(self):  # 도서 수정
-        check_ISBN = int(input("ISBN을 입력하세요 : "))
-        if (self.Book_df['ISBN'] == check_ISBN).any():  # 동일한 ISBN 하나라도 있는지 확인
-            title = input("제목")
-            author = input("저자")
-            pub = input("출판사")
-            price = int(input("가격"))
-            link = input("관련링크")
-            explanation = input("도서설명")
-
-            self.Book_df.loc[self.Book_df.ISBN == check_ISBN, ('제목', '저자', '출판사', '가격', '관련링크', '도서설명')] = (
+    def book_modify(self, check_ISBN, title, author, pub, price, link, explanation):  # 도서 수정
+        mod_df = self.Book_df[(self.Book_df["ISBN"] == int(check_ISBN))]
+        if (mod_df['ISBN'] == int(check_ISBN)).any():  # 동일한 ISBN 하나라도 있는지 확인
+            self.Book_df.loc[self.Book_df.ISBN == int(check_ISBN), ('제목', '저자', '출판사', '가격', '관련링크', '도서설명')] = (
             title, author, pub, price, link, explanation)  # ISBN을 기준으로 수정하고자 하는 컬럼의 데이터 수정
             self.Book_df = self.Book_df.sort_values(by=['제목'], axis=0)
             self.Book_df.to_csv('Book_list.csv', encoding='utf-8', index=False)  # 수정된 데이터를 확인하기 위한 csv 파일 생성
+            return True
         else:
             print('존재하지 않는 도서입니다.\n')
 
