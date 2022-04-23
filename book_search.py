@@ -9,10 +9,11 @@ def book_search(main) :    #도서검색(매개변수 = 초기화면)  #나중�
         book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
         srh_np = book_Pandas.book_search(B_SrhBox.get(), B_SrhEntry.get())
         print(srh_np)
-        
-        for i in srh_np.tolist():
-            B_SrhTreeV.insert('', 'end', text=i, values=i)
-        # (아직 구현 x)
+        if B_SrhTreeV in srh_np:
+            pass
+        else:
+            for i in srh_np.tolist():
+                B_SrhTreeV.insert('', 'end', text=i, values=i)
         
     frame = Frame(main)
 
