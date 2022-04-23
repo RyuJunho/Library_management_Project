@@ -11,25 +11,27 @@ def user_search(main) :    #회원검색(매개변수 = 초기화면)  #나중�
         print('버튼클릭')
         # (아직 구현 x)
 
-    label_user = Label(main, text="회원검색") #'회원검색' 레이블 생성 글자크기 설정
+    frame = Frame(main)
+
+    label_user = Label(frame, text="회원검색") #'회원검색' 레이블 생성 글자크기 설정
     label_user.pack(pady=50) #세로 간격 설정 (유동적으로 설정할것)
 
-    frame = Frame(main) # 콤보박스, 엔트리, 버튼이 들어갈 프레임 생성
+    search_frame = Frame(frame) # 콤보박스, 엔트리, 버튼이 들어갈 프레임 생성
 
-    combox = Combobox(frame, height=2, width=4, values=['이름', '전화번호']) #콤보박스 생성(이름,전화번호) (읽기전용으로 설정)
+    combox = Combobox(search_frame, height=2, width=4, values=['이름', '전화번호']) #콤보박스 생성(이름,전화번호) (읽기전용으로 설정)
     combox.set('이름') #콤보박스 초기값을 '이름'으로 설정
     combox.grid(row=1, column=0, columnspan=2) #콤보박스를 search_frame에 부착
 
-    input_tx = Entry(frame, width=20) #엔트리(텍스트박스) 생성
+    input_tx = Entry(search_frame, width=20) #엔트리(텍스트박스) 생성
     input_tx.grid(row=1, column=2) #엔트리를 search_frame에 부착
     input_tx.focus()  # 키보드 입력 초점
 
-    us_bt = Button(frame, text='검색', width=5) #'검색'버튼 생성
+    us_bt = Button(search_frame, text='검색', width=5) #'검색'버튼 생성
     us_bt.grid(row=1, column=3) #버튼을 search_frame에 부착
 
-    frame.pack()
+    search_frame.pack()
 
-    user_view = Treeview(main, columns=["num", "sex", "del"], displaycolumns=["num", "sex", "del"]) #트리뷰(표) 생성
+    user_view = Treeview(frame, columns=["num", "sex", "del"], displaycolumns=["num", "sex", "del"]) #트리뷰(표) 생성
     user_view.pack(pady=20) #표를 main에 부착
 
 
