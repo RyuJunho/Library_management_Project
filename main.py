@@ -9,6 +9,8 @@ from user_search import*
 from user_append import*
 from user_modify import*
 from user_delete import*
+import csv
+import os.path
 
 #1주차 회의록을 참조하여 설계 할 것
 #GUI 메인화면을 이 파일에서 설계

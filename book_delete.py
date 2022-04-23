@@ -2,28 +2,67 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import scrolledtext
 from tkinter import messagebox
-
+from book_Pandas_Class import*
 
 def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
 
     # 삭제 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def delete():
-        print('추가 버튼 클릭')
+        print('삭제 버튼 클릭')
         # 대여중인 도서이면
         # 메시지출력 후 삭제화면창으로 돌아감
-
-        # 삭제를 묻는 메시지박스 출력 (예, 아니오)
-        DelCheckBox = messagebox.askokcancel("도서등록", "도서를 삭제하시겠습니까?")
-        # '예'를 누를경우
-        # csv파일에서 데이터 삭제 (아직 구현 x)
-        # 삭제되었다는 메시지박스 출력 (확인)
-        # 메인창으로 이동
-        if DelCheckBox == 1:
-            AppYesBox = messagebox.showinfo("삭제완료", "삭제되었습니다.")
-        # '아니오'를 누를경우
-        # 삭제화면창으로 돌아감
+        book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
+        book_delete_p = book_Pandas.book_delete(ISBN_Entry.get())
+        if book_delete_p == False: # ISBN이 동일한지(임시데이터)
+            messagebox.showerror('도서 관리 프로그램', "대여중인 도서입니다.")
         else:
-            DelNoBox = messagebox.showinfo("삭제취소", "삭제가 취소 되었습니다.")
+        # 삭제를 묻는 메시지박스 출력 (예, 아니오)
+            DelCheckBox = messagebox.askokcancel('도서 관리 프로그램', "도서를 삭제하시겠습니까?")
+            # '예'를 누를경우
+            # csv파일에서 데이터 삭제 (아직 구현 x)
+            # 삭제되었다는 메시지박스 출력 (확인)
+            # 메인창으로 이동
+            if DelCheckBox == 1:
+                messagebox.showinfo('도서 관리 프로그램', "삭제되었습니다.")
+                ISBN_serch.destroy() # 확인을 누르면 창 닫기
+            # '아니오'를 누를경우
+            # 삭제화면창으로 돌아감
+            else:
+                messagebox.showinfo('도서 관리 프로그램', "삭제가 취소 되었습니다.")
+
+    def ISBN_input():
+            print("ISBN 입력")
+            book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
+            ISBN_np = book_Pandas.del_ISBN(ISBN_Entry.get())    # 클래스에서 반환된 넘파이 불러옴
+            if ISBN_np[0][0] == int(ISBN_Entry.get()): # ISBN이 동일한지(임시데이터)
+                df_insert(B_DISBNEntry, 0, ISBN_np[0][0])
+                df_insert(B_nameEntry, 0, ISBN_np[0][1])
+                df_insert(B_DWirEntry, 0, ISBN_np[0][2])
+                df_insert(B_DPubEntry, 0, ISBN_np[0][3])
+                df_insert(B_DPriEntry, 0, ISBN_np[0][4])
+                df_insert(B_DLinkEntry, 0, ISBN_np[0][5])
+                df_insert(B_DIntrscr, "1.0", ISBN_np[0][6])
+            else:
+                messagebox.showerror('도서 관리 프로그램', "존재하지 않는 회원입니다.")
+    
+    def df_insert(del_entry,num, ISBN):
+        del_entry.insert(num,ISBN)
+        del_entry.config(state='disabled')
+    
+    ISBN_serch = Toplevel(main)
+    ISBN_serch.geometry("340x120")
+
+    # 전화번호 입력 창 레이블
+    ISBN_Label = Label(ISBN_serch, text ="ISBN")
+    ISBN_Label.pack(side=LEFT, padx=20)
+
+    # 전화번호 입력 창 엔트리
+    ISBN_Entry = Entry(ISBN_serch, width=20)
+    ISBN_Entry.pack(side=LEFT)
+
+    # 전화번호 입력 창 버튼
+    ISBN_Button = Button(ISBN_serch,text="입력", width=8, command=ISBN_input)
+    ISBN_Button.pack(side=LEFT)            
 
     frame = Frame(main)
 
@@ -32,8 +71,8 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
 
     # '도서 삭제' 레이블 생성 글자크기 설정
     # '도서 삭제' 레이블을 main에 부착
-    B_DmodLabel = Label(frame, text ="도서 삭제", font=(None,12))
-    B_DmodLabel.grid(row=1,column=1,pady=10)
+    B_delLabel = Label(frame, text ="도서 삭제", font=(None,12))
+    B_delLabel.grid(row=1,column=1,pady=10)
 
     B_Delframe_1 = Frame(frame)
     B_Delframe_1.grid(row=2,column=1)
@@ -47,8 +86,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # '도서명' 엔트리를 읽기전용으로 상태설정
     # '도서명' 엔트리를 main에 부착
     B_nameEntry = Entry(B_Delframe_1, width=50)
-    B_nameEntry.insert(0,"따라하며 배우는 파이썬과 데이터 과학")
-    B_nameEntry.config(state='disabled')
     B_nameEntry.grid(row=1,column=2)
 
     # '출판사' 레이블 생성
@@ -60,8 +97,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # '출판사' 엔트리를 읽기전용으로 상태설정
     # '출판사' 엔트리를 main에 부착
     B_DPubEntry = Entry(B_Delframe_1, width=50)
-    B_DPubEntry.insert(0,"생능출판사")
-    B_DPubEntry.config(state='disabled')
     B_DPubEntry.grid(row=2,column=2)
 
     # 'ISBN' 레이블 생성
@@ -73,8 +108,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # 'ISBN' 엔트리를 읽기전용으로 상태설정
     # 'ISBN' 엔트리를 main에 부착
     B_DISBNEntry = Entry(B_Delframe_1, width=50)
-    B_DISBNEntry.insert(0,"9845632")
-    B_DISBNEntry.config(state='disabled')
     B_DISBNEntry.grid(row=3,column=2)
 
     # '관련링크' 이블 생성
@@ -86,8 +119,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # '관련링크' 엔트리를 읽기전용으로 상태설정
     # '관련링크' 엔트리를 main에 부착
     B_DLinkEntry = Entry(B_Delframe_1, width=50)
-    B_DLinkEntry.insert(0,"https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=259567419")
-    B_DLinkEntry.config(state='disabled')
     B_DLinkEntry.grid(row=4,column=2)
 
     # '저자' 레이블 생성
@@ -102,8 +133,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # '저자' 엔트리를 읽기전용으로 상태설정
     # '저자' 엔트리를 main에 부착
     B_DWirEntry = Entry(B_Delframe_2, width=23)
-    B_DWirEntry.insert(0,"천인국")
-    B_DWirEntry.config(state='disabled')
     B_DWirEntry.grid(row=1,column=1)
 
     # '가격' 레이블 생성
@@ -115,8 +144,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # '가격' 엔트리를 읽기전용으로 상태설정
     # '가격' 엔트리를 main에 부착
     B_DPriEntry = Entry(B_Delframe_2, width=20)
-    B_DPriEntry.insert(0,"26000")
-    B_DPriEntry.config(state='disabled')
     B_DPriEntry.grid(row=1,column=3)
 
     # '도서소개' 레이블 생성
@@ -128,8 +155,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # '도서소개' 스크롤텍스트 읽기전용으로 상태설정
     # '도서소개' 스크롤텍스트(ScrolledText) main에 부착
     B_DIntrscr = scrolledtext.ScrolledText(frame, width=100, height=10, wrap=WORD)
-    B_DIntrscr.insert("1.0","파이썬은 간결한 코드로도 엄청나게 많은 일을 할 수 있으며, 이것이 지금의 영예를 누릴 수 있게 된 가장 중요한 이유이다. 특히 최근의 컴퓨터 과학 분야에서 가장 중요한 영역이라 할 데이터 과학에 최적인 언어이면서, 기계학습과 인공지능 분야의 소프트웨어 개발을 가장 효율적으로 해낼 수 있는 언어이다. 저자들은 독자들에게 파이썬의 문법을 설명하는 일 이상을 하고 싶었다. 그러한 이유로 파이썬의 강력한 능력을 드러내어, 더 깊고 풍부한 프로그래밍의 세계로 독자를 안내하기 위해 이 책을 기획하였다.")
-    B_DIntrscr.config(state='disabled')
     B_DIntrscr.grid(row=4,column=1)
 
     # '삭제'버튼 생성 (command = delete)
