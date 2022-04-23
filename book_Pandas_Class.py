@@ -10,15 +10,16 @@ class Panda:
         self.User_df = pd.read_csv(user).sort_values(by=['이름'], axis=0)  # 회원 존재 여부를 확인하기 위한 데이터 프레임 생성
         self.user_rent_df = pd.read_csv(rent).sort_values(by=['제목'], axis=0)  # 대출관리 초기 데이터를 데이터 프레임으로 생성
         
-    def book_search(self, combo):  # 도서 검색
+    def book_search(self, combo, data_search):  # 도서 검색
         if combo == "제목":  # 콤보 박스를 제목으로 선택했을 때
-            data_Tsearch = input("제목을 입력하세요 : ")  # 제목 데이터
-            B_search_np = np.array(self.Book_df.loc[self.Book_df['제목'].str.contains(data_Tsearch), ['제목', '저자', 'ISBN', '대여여부']])  # 제목 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
-            return B_search_np
+            self.T_search_np = np.array(self.Book_df.loc[self.Book_df['제목'].str.contains(data_search), ['제목', '저자', 'ISBN', '대여여부']])  # 제목 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
+            print("제목")
+            return self.T_search_np
         elif combo == "저자":  # 콤보 박스를 저자로 선택했을 때
-            data_Asearch = input("저자를 입력하세요 : ")  # 저자 데이터
-            B_search_np = np.array(self.Book_df.loc[self.Book_df['저자'].str.contains(data_Asearch), ['제목', '저자', 'ISBN', '대여여부']])  # 저자 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
-            return B_search_np
+            self.A_search_np = np.array(self.Book_df.loc[self.Book_df['저자'].str.contains(data_search), ['제목', '저자', 'ISBN', '대여여부']])  # 저자 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
+            print("저자")
+            return self.A_search_np
+            
 
     def book_append(self, check_ISBN, title, author, pub, price, link, explanation):  # 도서 추가
         app_df = self.Book_df[(self.Book_df["ISBN"] == int(check_ISBN))]
