@@ -1,27 +1,52 @@
 from tkinter import *
 from tkinter.ttk import *
+from user_Pandas_Class import*
 from tkinter import messagebox
 
 
-
-def user_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
-    # 삭제 버튼을 클릭했을 때 호출되는 이벤트 핸들러
+def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
+    # 탈퇴 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def delete():
-        print('추가 버튼 클릭')
-        # 대여중인 회원이면
-        if (True):
-            print('대여중인회원입니다')
-        # messagebox.showinfo('도서 관리 프로그램 메시지', '대여 중인 회원입니다.') #메시지출력 후 삭제화면창으로 돌아감
-
+        print('탈퇴 버튼 클릭')
+        us_list = pile.user_delete(entry_name.get())  # 콤보박스, 엔트리 받아와서 저장
+        if us_list: # 대여중인 회원이면
+            messagebox.showinfo('도서 관리 프로그램 메시지', '대여 중인 회원입니다.') #메시지출력 후 삭제화면창으로 돌아감
         else:
-            check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '삭제하시겠습니까?')  # 삭제를 묻는 메시지박스 출력 (예, 아니오)
-            if check_yn == 1:  # '예'를 누를경우
+            check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '탈퇴하시겠습니까?')  # 탈퇴를 묻는 메시지박스 출력 (예, 아니오)
+            if check_yn == 1:  # '예'를 누를 경우
                 # csv파일에서 데이터 탈퇴로 설정 (아직 구현 x)
-                messagebox.showinfo('알림', '삭제되었습니다.')  # 삭제되었다는 메시지박스 출력 (확인)
+                messagebox.showinfo('알림', '탈퇴되었습니다.')  # 탈퇴되었다는 메시지박스 출력 (확인)
                 # 메인창으로 이동
-            else:  # '아니오'를 누를경우
-                messagebox.showinfo('알림', '삭제가 취소되었습니다.')
+            else:  # '아니오'를 누를 경우
+                messagebox.showinfo('알림', '탈퇴가 취소되었습니다.')
                 # 삭제화면창으로 돌아감
+
+    def phone_num():
+        us_num = pile.user_delete_check(num_Entry.get())
+        if us_num:
+            mini.withdraw()
+            data_in = pile.user_number(num_Entry.get())
+            entry_name.insert(0, data_in[0][0])
+            entry_birth.insert(0, data_in[0][1])
+            #entry_num1.insert(0, data_in[0][3])
+            entry_mail.insert(0, data_in[0][4])
+        else:
+            messagebox.showerror('알림', '존재하지않은 회원입니다.')
+
+    pile = Main('user_list.csv', 'Book_rent.csv')
+    mini = Toplevel(main)
+    mini.title('전화번호 입력')
+    mini.geometry('400x140')
+    mini.resizable(width=False, height=False)
+    num_Label = Label(mini, text='000-0000-0000 형식으로 입력하세요.')
+    num_Label.pack(pady=20)
+
+    num_Entry = Entry(mini, width=20)
+    num_Entry.pack(pady=5)
+    num_Entry.focus()  # 키보드 입력 초점
+
+    num_Button = Button(mini, text='입력', width=6, command=phone_num)
+    num_Button.pack(pady=5)
 
 
     frame = Frame(main)
@@ -36,7 +61,7 @@ def user_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     label_name.grid(row=2, column=1, pady=10) # '이름' 레이블을 main에 부착
 
     entry_name = Entry(text_frame, width=30) # '이름' 엔트리(텍스트박스) 생성
-    entry_name.configure(state='disabled') # '이름' 엔트리를 읽기전용으로 상태설정
+    #entry_name.configure(state='disabled') # '이름' 엔트리를 읽기전용으로 상태설정
     entry_name.grid(row=2, column=2) # '이름' 엔트리를 main에 부착
 
     label_birth = Label(text_frame, text='생년월일', width=10) # '생년월일' 레이블 생성
@@ -44,7 +69,7 @@ def user_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     label_birth.grid(row=3, column=1, pady=10) # '생년월일' 레이블을 main에 부착
 
     entry_birth = Entry(text_frame, width=30) # '생년월일' 엔트리(텍스트박스) 생성
-    entry_birth.configure(state='disabled') # '생년월일' 엔트리를 읽기전용으로 상태설정
+    #entry_birth.configure(state='disabled') # '생년월일' 엔트리를 읽기전용으로 상태설정
     entry_birth.grid(row=3, column=2) # '생년월일' 엔트리를 main에 부착
 
     sex_frame = Frame(text_frame)
@@ -87,7 +112,7 @@ def user_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     label_mail.grid(row=6, column=1, pady=10) # '이메일' 레이블을 main에 부착
 
     entry_mail = Entry(text_frame, width=30) # '이메일' 엔트리(텍스트박스) 생성
-    entry_mail.configure(state='disabled') # '이메일' 엔트리를 읽기전용으로 상태설정
+    #entry_mail.configure(state='disabled') # '이메일' 엔트리를 읽기전용으로 상태설정
     entry_mail.grid(row=6, column=2) # '이메일' 엔트리를 main에 부착
 
 

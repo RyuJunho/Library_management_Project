@@ -13,7 +13,6 @@ from phone_search import*
 
 #1주차 회의록을 참조하여 설계 할 것
 #GUI 메인화면을 이 파일에서 설계
-#이벤트 처리기 기능은 구현은 하지말고 주석으로 설명 달아놓을 것
 
 # 이벤트 핸들러 ##################################################################################
 
@@ -97,14 +96,6 @@ def main_book_return(main):  #반납하기 메뉴를 클릭하였을 때 호출�
     frame.pack()                    #도서반납 화면 띄우기
 
 
-def main_phone_search(main):  #반납하기 메뉴를 클릭하였을 때 호출될 이벤트 핸들러
-    global frame
-    frame.destroy()                 #기존화면 제거
-    new_frame = phone_search(main)   #도서반납 화면 가져오기
-    frame = new_frame               #도서반납 화면으로 교체
-    frame.pack()                   #도서반납 화면 띄우기
-    
-
 # 이벤트 핸들러 -끝- ##############################################################################
 
 
@@ -116,7 +107,8 @@ width = 1000
 height = 600
 x = (sw/2) - (width/2)
 y = (sh/2) - (height/2)
-main.geometry('%dx%d+%d+%d' % (width, height, x, y)) #메인창 크기 고정, 중앙에 출력되도록 설정
+main.geometry('%dx%d+%d+%d' % (width, height, x, y)) # 메인창 중앙에 출력되도록 설정
+main.resizable(width=False, height=False) #메인창 크기 고정
 
 global frame
 frame = Frame(main)
@@ -142,7 +134,7 @@ user_menu.add_command(label='회원탈퇴', command= lambda : main_user_delete(m
 
 checkout_menu = Menu(menubar, tearoff=0) #대출/반납(상위메뉴) 생성
 menubar.add_cascade(label='대출/반납', menu=checkout_menu)
-checkout_menu.add_command(label='대출하기', command= lambda : main_phone_search(main)) #대출하기(하위메뉴) 생성
+checkout_menu.add_command(label='대출하기', command= lambda : main_book_rent(main)) #대출하기(하위메뉴) 생성
 checkout_menu.add_command(label='반납하기', command= lambda : main_book_return(main))#반납하기(하위메뉴) 생성
 
 main.config(menu=menubar)   #메뉴바 부착
