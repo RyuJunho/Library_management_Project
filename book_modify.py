@@ -13,7 +13,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
         if len(B_MnameEntry.get()) == 0 or len(B_MPubEntry.get()) == 0 or len(B_MISBNEntry.get()) == 0 or len(
                 B_MLinkEntry.get()) == 0 or len(B_MPriEntry.get()) == 0 or len(B_MWirEntry.get()) == 0 or len(
                 B_MIntrscr.get("1.0", "end")) == 0:
-            messagebox.showerror("미입력", "빈칸이 존재합니다.\n빈칸을 입력하세요.")
+                    messagebox.showerror("도서 관리 프로그램", "빈칸이 존재합니다.\n빈칸을 입력하세요.")
 
         # ISBN 중복 되면 (아직 구현 x)
         # 메시지박스 출력 후 수정화면창으로 돌아감
@@ -23,34 +23,37 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
 
         # 수정을 묻는 메시지박스 출력 (예, 아니오)
         else:
-            MobCheckBox = messagebox.askokcancel("도서수정", "도서를 수정하시겠습니까?")
+            MobCheckBox = messagebox.askokcancel("도서 관리 프로그램", "도서를 수정하시겠습니까?")
 
             # '예'를 누를경우
-            # csv파일 데이터 수정 (아직 구현 x)
-            # 수정되었다는 메시지박스 출력 (확인)
-            # 엔트리와 텍스트의 내용을 비움
+            # csv파일 데이터 수정
             if MobCheckBox == 1:
-                book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
-                book_modify_p = book_Pandas.book_modify(B_MISBNEntry.get(),B_MnameEntry.get(), B_MWirEntry.get(), B_MPubEntry.get(), 
-                                                        B_MPriEntry.get(), B_MLinkEntry.get(), B_MIntrscr.get("1.0", "end"))
-                if book_modify_p == True:
-                    messagebox.showinfo("수정완료", "수정되었습니다.")
-                    B_MnameEntry.delete(0, "end")
-                    B_MPubEntry.delete(0, "end")
-                    B_MISBNEntry.delete(0, "end")
-                    B_MLinkEntry.delete(0, "end")
-                    B_MWirEntry.delete(0, "end")
-                    B_MPriEntry.delete(0, "end")
-                    B_MIntrscr.delete("1.0", "end")
+                if B_MISBNEntry.get().isdigit() and B_MPriEntry.get().isdigit(): # 가격과 ISBN이 숫자인 경우
+                    book_modify_p = book_Pandas.book_modify(B_MISBNEntry.get(),B_MnameEntry.get(), B_MWirEntry.get(), B_MPubEntry.get(), 
+                                                            B_MPriEntry.get(), B_MLinkEntry.get(), B_MIntrscr.get("1.0", "end"))
+                    if book_modify_p == True:
+                        # 수정되었다는 메시지박스 출력 (확인)
+                        messagebox.showinfo("도서 관리 프로그램", "수정되었습니다.")
+                        # 엔트리와 텍스트의 내용을 비움
+                        B_MnameEntry.delete(0, "end")
+                        B_MPubEntry.delete(0, "end")
+                        B_MISBNEntry.delete(0, "end")
+                        B_MLinkEntry.delete(0, "end")
+                        B_MWirEntry.delete(0, "end")
+                        B_MPriEntry.delete(0, "end")
+                        B_MIntrscr.delete("1.0", "end")
+                    else:
+                        messagebox.showerror("도서 관리 프로그램", "등록되지 않은 도서입니다.")
                 else:
-                    messagebox.showerror("미등록 도서", "등록되지 않은 도서입니다.")
+                    messagebox.showerror("도서 관리 프로그램", "ISBN과 가격은 숫자를 입력해주세요.")
+                
             # '아니오'를 누를경우
             # 수정화면창으로 돌아감 (내용을 비우지 않음)
             else:
-                messagebox.showinfo("수정취소", "수정이 취소 되었습니다.")
+                messagebox.showinfo("도서 관리 프로그램", "수정이 취소 되었습니다.")
 
     frame = Frame(main)
-
+    book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
     # '도서 정보 수정' 레이블 생성 글자크기 설정
     # '도서 정보 수정' 레이블을 main에 부착
     B_ModLabel = Label(frame, text ="도서 정보 수정", font=(None,12))

@@ -11,6 +11,7 @@ def book_rent(main) :
     def Phone_input():
         print("전화번호 입력")
         book_userC_p = book_Pandas.user_check(P_ShrEntry.get())
+        print(book_userC_p[0][0])
         if book_userC_p[0][0] == P_ShrEntry.get(): # 전화번호가 동일한지(임시데이터)
             PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", book_userC_p[0][1]+"님이 맞으십니까?")
             if PhoneCheckBox == 1:
@@ -23,16 +24,23 @@ def book_rent(main) :
     def book_rentButton():
         rent_date = (datetime.today()).strftime("%Y-%m-%d")  # 대여일
         return_date = (datetime.today() + timedelta(14)).strftime("%Y-%m-%d")  # 대여 기간 계산
-        book_Pandas.book_rent(P_ShrEntry.get(), int(getValue[2]), rent_date, return_date)
+        book_Pandas.book_rent(P_ShrEntry.get(), getValue[2], rent_date, return_date)
         messagebox.showinfo("도서 관리 프로그램", "대출되었습니다.\n(반납예정일 : "+return_date+")")
+        phone_serch.destroy() # 확인을 누르면 창 닫기
     
     # 도서 검색 클래스
     def search():
         srh_np = book_Pandas.book_search(Rent_Box.get(), Rent_ShrEntry.get())
         print(srh_np)
+        re(Rent_ShrTreeV)
         for i in srh_np.tolist():
             Rent_ShrTreeV.insert('', 'end', text=i, values=i)
-            
+    
+    # 검색 버튼 클릭 시 데이터 삭제
+    def re(Treeview):
+        for row in Treeview.get_children():
+            Treeview.delete(row) 
+                   
     # 트리뷰 클릭 이벤트
     def click_item(event):
         selectedItem = Rent_ShrTreeV.focus()
@@ -50,7 +58,7 @@ def book_rent(main) :
         rent_np = book_Pandas.rent_data(getValue[2])
         for i in rent_np.tolist():
             tree.insert('', 'end', text=i, values=i)
-
+            
     # 트리튜 클릭 시 나오는 새창
     def Book_info():
         rent_main = Tk()

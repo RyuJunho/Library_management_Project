@@ -9,8 +9,6 @@ from user_search import*
 from user_append import*
 from user_modify import*
 from user_delete import*
-import csv
-import os.path
 
 #1주차 회의록을 참조하여 설계 할 것
 #GUI 메인화면을 이 파일에서 설계
@@ -100,22 +98,6 @@ def main_book_return(main):  #반납하기 메뉴를 클릭하였을 때 호출�
 
 # 이벤트 핸들러 -끝- ##############################################################################
 
-
-# csv 파일 생성
-def csv_data(data, CSV_titles):  # 도서 초기 빈 csv 파일 생성
-    if os.path.isfile(data): # 동일한 csv가 있는지 판별
-        print("생성불가")
-    else:
-        with open(data, 'w', encoding='UTF-8') as f:
-            w = csv.writer(f)
-            w.writerow(CSV_titles)
-
-
-# 빈 도서 csv, 빈 대출관리csv 파일 생성
-B_CSV_titles = ['ISBN', '제목', '저자', '출판사', '가격', '관련링크', '도서설명', '대여여부']
-R_CSV_titles = ['ISBN', '전화번호', '대여여부', '대여일', '반납예정일']
-csv_data('Book_list.csv', B_CSV_titles)
-csv_data('Book_rent.csv', R_CSV_titles)
 
 main = Tk() #메인창 생성
 main.title('도서 관리 프로그램') #메인창 타이틀 설정
