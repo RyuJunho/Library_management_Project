@@ -9,6 +9,7 @@ from user_search import*
 from user_append import*
 from user_modify import*
 from user_delete import*
+from phone_search import*
 
 #1주차 회의록을 참조하여 설계 할 것
 #GUI 메인화면을 이 파일에서 설계
@@ -96,6 +97,14 @@ def main_book_return(main):  #반납하기 메뉴를 클릭하였을 때 호출�
     frame.pack()                    #도서반납 화면 띄우기
 
 
+def main_phone_search(main):  #반납하기 메뉴를 클릭하였을 때 호출될 이벤트 핸들러
+    global frame
+    frame.destroy()                 #기존화면 제거
+    new_frame = phone_search(main)   #도서반납 화면 가져오기
+    frame = new_frame               #도서반납 화면으로 교체
+    frame.pack()                   #도서반납 화면 띄우기
+    
+
 # 이벤트 핸들러 -끝- ##############################################################################
 
 
@@ -133,7 +142,7 @@ user_menu.add_command(label='회원탈퇴', command= lambda : main_user_delete(m
 
 checkout_menu = Menu(menubar, tearoff=0) #대출/반납(상위메뉴) 생성
 menubar.add_cascade(label='대출/반납', menu=checkout_menu)
-checkout_menu.add_command(label='대출하기', command= lambda : main_book_rent(main)) #대출하기(하위메뉴) 생성
+checkout_menu.add_command(label='대출하기', command= lambda : main_phone_search(main)) #대출하기(하위메뉴) 생성
 checkout_menu.add_command(label='반납하기', command= lambda : main_book_return(main))#반납하기(하위메뉴) 생성
 
 main.config(menu=menubar)   #메뉴바 부착
