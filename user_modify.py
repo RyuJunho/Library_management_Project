@@ -1,14 +1,14 @@
 from tkinter import *
 from tkinter.ttk import *
+from user_Pandas_Class import*
 from tkinter import messagebox
 
 
-
-def user_modify(main) :    #회원수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
+def user_modify(main) :    # 회원 수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
 
     # 수정 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def modify():
-        print('추가 버튼 클릭')
+        print('수정 버튼 클릭')
         # 빈칸이 있으면
         if len(entry_name.get()) == 0 or len(entry_birth.get()) == 0 or len(entry_num1.get()) == 0 or len(
                 entry_num2.get()) == 0 or len(entry_num3.get()) == 0 or len(entry_mail.get()) == 0:
@@ -50,6 +50,7 @@ def user_modify(main) :    #회원수정(매개변수 = 초기화면)  #나중�
 
     entry_name = Entry(text_frame, width=30) # '이름' 엔트리(텍스트박스) 생성
     entry_name.grid(row=2, column=2) # '이름' 엔트리를 main에 부착
+    entry_name.focus()  # 키보드 입력 초점
 
     label_birth = Label(text_frame, text='생년월일', width=10) # '생년월일' 레이블 생성
     label_birth.grid(row=3, column=1, pady=10) # '생년월일' 레이블을 main에 부착

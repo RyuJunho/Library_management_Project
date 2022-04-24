@@ -1,6 +1,6 @@
-전화번호,이름,생년월일,성별,이메일,탈퇴여부
-010-1234-5678,김영수,19980518,False,youngsu18@naver.com,True
-010-1478-5236,오정수,20000821,False,int50821@google.com,True
-010-8523-7413,유민호,20100101,True,min01@google.com,True
-010-9876-5432,박영식,19990714,True,sik0714@naver.com,False
-010-9632-3545,구병철,19901211,True,ibottle9@daum.net,False
+이름,생년월일,성별,전화번호,이메일,탈퇴여부
+김영수,19980518,False,010-1234-5678,youngsu18@naver.com,True
+오정수,20000821,False,010-1478-5236,int50821@google.com,True
+유민호,20100101,True,010-8523-7413,min01@google.com,True
+박영식,19990714,True,010-9876-5432,sik0714@naver.com,False
+구병철,19901211,True,010-9632-3545,ibottle9@daum.net,False
