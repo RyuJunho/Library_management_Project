@@ -4,19 +4,22 @@ from book_Pandas_Class import*
 
 def book_search(main) :    #도서검색(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
 
+    # 버튼 클릭 시 트리뷰 데이터 초기화
+    def re(Treeview):
+        for row in Treeview.get_children():
+            Treeview.delete(row)
+            
     # 검색 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def search():
-        book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
-        srh_np = book_Pandas.book_search(B_SrhBox.get(), B_SrhEntry.get())
-        print(srh_np)
-        if B_SrhTreeV in srh_np:
-            pass
-        else:
-            for i in srh_np.tolist():
-                B_SrhTreeV.insert('', 'end', text=i, values=i)
+        srh_np = book_Pandas.book_search(B_SrhBox.get(), B_SrhEntry.get()) 
+        re(B_SrhTreeV)
+        for i in srh_np.tolist():
+            B_SrhTreeV.insert('', 'end', text=i, values=i)
         
     frame = Frame(main)
 
+    book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
+        
     # '도서검색' 레이블 생성 글자크기 설정
     # 레이블을 main윈도우에 부착
     B_SrhLabel = Label(frame, text="도서검색",font=(None, 14))

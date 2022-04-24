@@ -15,23 +15,23 @@ def book_append(main) :    #도서등록(매개변수 = 초기화면)  #나중�
         if len(B_nameEntry.get()) == 0 or len(B_PubEntry.get()) == 0 or len(B_ISBNEntry.get()) == 0 or len(
                 B_LinkEntry.get()) == 0 or len(B_PriEntry.get()) == 0 or len(B_WirEntry.get()) == 0 or len(
                 B_Intrscr.get("1.0", "end-1c")) == 0:
-            messagebox.showerror("미입력", "빈칸이 존재합니다.\n빈칸을 입력하세요.")
+                    messagebox.showerror("도서 관리 프로그램", "빈칸이 존재합니다.\n빈칸을 입력하세요.")
 
         # 등록을 묻는 메시지박스 출력 (예, 아니오)
         else:
-            AppCheckBox = messagebox.askokcancel("도서등록", "도서를 등록하시겠습니까?")
+            AppCheckBox = messagebox.askokcancel("도서 관리 프로그램", "도서를 등록하시겠습니까?")
             # '예'를 누를경우
             # 등록되었다는 메시지박스 출력 (확인)
             # 엔트리와 텍스트의 내용을 비움
             if AppCheckBox == 1:
                 if B_ISBNEntry.get().isdigit() and B_PriEntry.get().isdigit(): # 가격과 ISBN이 숫자인 경우
-                    book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
-                    book_append_p = book_Pandas.book_append(B_ISBNEntry.get(),B_nameEntry.get(), B_WirEntry.get(), B_PubEntry.get(), B_PriEntry.get(), B_LinkEntry.get(), B_Intrscr.get("1.0", "end-1c"))
+                    book_append_p = book_Pandas.book_append(B_ISBNEntry.get(),B_nameEntry.get(), B_WirEntry.get(), B_PubEntry.get(), 
+                                                            B_PriEntry.get(), B_LinkEntry.get(), B_Intrscr.get("1.0", "end"))
                     # ISBN 중복 되면 메시지박스 출력 후 등록화면창으로 돌아감
                     if book_append_p == True:   # 도서 추가 함수 리턴값이 True일 때 도서 추가 불가능 메세지 띄움
-                        messagebox.showerror("ISBN 중복", "ISBN이 존재하는 도서입니다.")
+                        messagebox.showerror("도서 관리 프로그램", "ISBN이 존재하는 도서입니다.")
                     else: 
-                        messagebox.showinfo("등록완료", "등록되었습니다.")
+                        messagebox.showinfo("도서 관리 프로그램", "등록되었습니다.")
                         B_nameEntry.delete(0, "end")
                         B_PubEntry.delete(0, "end")
                         B_ISBNEntry.delete(0, "end")
@@ -40,14 +40,14 @@ def book_append(main) :    #도서등록(매개변수 = 초기화면)  #나중�
                         B_PriEntry.delete(0, "end")
                         B_Intrscr.delete("1.0", "end")
                 else:
-                    messagebox.showerror("숫자입력", "ISBN과 가격은 숫자를 입력해주세요.")
+                    messagebox.showerror("도서 관리 프로그램", "ISBN과 가격은 숫자를 입력해주세요.")
             # '아니오'를 누를경우
             # 등록화면창으로 돌아감 (내용을 비우지 않음)
             else:
-                messagebox.showinfo("등록취소", "등록이 취소 되었습니다.")
+                messagebox.showinfo("도서 관리 프로그램", "등록이 취소 되었습니다.")
 
     frame = Frame(main)
-
+    book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
     # '도서등록' 레이블 생성 글자크기 설정
     # '도서등록' 레이블을 main에 부착
     B_ApeLabel = Label(frame, text ="도서등록", font=(None,12))

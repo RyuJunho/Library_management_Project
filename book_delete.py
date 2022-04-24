@@ -11,7 +11,6 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
         print('삭제 버튼 클릭')
         # 대여중인 도서이면
         # 메시지출력 후 삭제화면창으로 돌아감
-        book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
         book_delete_p = book_Pandas.book_delete(ISBN_Entry.get())
         if book_delete_p == False: # ISBN이 동일한지(임시데이터)
             messagebox.showerror('도서 관리 프로그램', "대여중인 도서입니다.")
@@ -32,18 +31,18 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
 
     def ISBN_input():
             print("ISBN 입력")
-            book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
             ISBN_np = book_Pandas.del_ISBN(ISBN_Entry.get())    # 클래스에서 반환된 넘파이 불러옴
-            if ISBN_np[0][0] == int(ISBN_Entry.get()): # ISBN이 동일한지(임시데이터)
-                df_insert(B_DISBNEntry, 0, ISBN_np[0][0])
-                df_insert(B_nameEntry, 0, ISBN_np[0][1])
-                df_insert(B_DWirEntry, 0, ISBN_np[0][2])
-                df_insert(B_DPubEntry, 0, ISBN_np[0][3])
-                df_insert(B_DPriEntry, 0, ISBN_np[0][4])
-                df_insert(B_DLinkEntry, 0, ISBN_np[0][5])
-                df_insert(B_DIntrscr, "1.0", ISBN_np[0][6])
+            if len(ISBN_np) != 0:
+                if ISBN_np[0][0] == int(ISBN_Entry.get()): # ISBN이 동일한지(임시데이터)
+                    df_insert(B_DISBNEntry, 0, ISBN_np[0][0])
+                    df_insert(B_nameEntry, 0, ISBN_np[0][1])
+                    df_insert(B_DWirEntry, 0, ISBN_np[0][2])
+                    df_insert(B_DPubEntry, 0, ISBN_np[0][3])
+                    df_insert(B_DPriEntry, 0, ISBN_np[0][4])
+                    df_insert(B_DLinkEntry, 0, ISBN_np[0][5])
+                    df_insert(B_DIntrscr, "1.0", ISBN_np[0][6])
             else:
-                messagebox.showerror('도서 관리 프로그램', "존재하지 않는 회원입니다.")
+                messagebox.showerror('도서 관리 프로그램', "존재하지 않는 도서입니다.")
     
     def df_insert(del_entry,num, ISBN):
         del_entry.insert(num,ISBN)
@@ -64,6 +63,8 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     ISBN_Button = Button(ISBN_serch,text="입력", width=8, command=ISBN_input)
     ISBN_Button.pack(side=LEFT)            
 
+    book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
+    
     frame = Frame(main)
 
     # 엔트리, 스크롤텍스트의 데이터 값은 csv파일에서 읽어옴 (아직 구현 x)
