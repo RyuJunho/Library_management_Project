@@ -7,18 +7,17 @@ def book_return(main) :
 
     # 전화번호로 회원을 확인
     def Phone_input():
-        print("전화번호 입력")
-        if len(P_ShrEntry.get()) == 13:
-            book_userC_p = book_Pandas.user_check(P_ShrEntry.get())
-            if book_userC_p[0][0] == P_ShrEntry.get(): # 전화번호가 동일한지
-                PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", book_userC_p[0][1]+"님이 맞으십니까?")
-                if PhoneCheckBox == 1:
-                    if rent_insert(Return_tree) == False:
-                        messagebox.showinfo("도서 관리 프로그램", "대여한 도서가 없습니다.")
-                    else:
-                        pass
-            else:
+        if len(P_ShrEntry.get()) == 13: #전화번호 형식인지 확인
+            try :
+                user_data_list = book_Pandas.user_check(P_ShrEntry.get())[0].tolist()   #전화번호로 회원데이터 추출
+            except :
                 messagebox.showerror("도서 관리 프로그램", "존재하지 않는 회원입니다.")
+                return False
+
+            PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", user_data_list[1]+"님이 맞으십니까?")
+            if PhoneCheckBox == 1:
+                rent_insert(user_data_list[0])
+
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
         
@@ -35,13 +34,17 @@ def book_return(main) :
                     book_Pandas.book_return(P_ShrEntry.get(), getValue[2])
                     Return_tree.delete(selected_item) # 선택한 트리뷰 데이터 삭제
                 
-    def rent_insert():
-        return_np = book_Pandas.return_data(P_ShrEntry.get())
-        if len(return_np) == 0:
-            pass
-        else:
+    def rent_insert(phone_number):
+        return_np = book_Pandas.return_data(phone_number)
+        try :
+            if not return_np.tolist() :
+                messagebox.showinfo("도서 관리 프로그램", "대여한 도서가 없습니다.")
+                return False
+
             for i in return_np.tolist():
                 Return_tree.insert('', 'end', text=i, values=i)
+        except :
+            messagebox.showinfo("도서 관리 프로그램", "대여한 도서가 없습니다.")
             
     
     book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')

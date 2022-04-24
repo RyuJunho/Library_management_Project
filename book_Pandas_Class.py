@@ -59,8 +59,11 @@ class Panda:
         return self.B_del_np
    
     def user_check(self, check_Phone):  # 해당하는 전화번호가 있는지 판별
-        self.user_np = np.array(self.User_df[(self.User_df["전화번호"] == check_Phone)])
-        return self.user_np
+        try :
+            self.user_np = np.array(self.User_df[(self.User_df["전화번호"] == check_Phone)])
+            return self.user_np
+        except :
+            return False
      
     def ISBN_check(self, book_ISBN):    # 해당하는 ISBN이 있는지 판별
         ISBN_check_df = self.Book_df[(self.Book_df["ISBN"] == int(book_ISBN))]
@@ -103,18 +106,20 @@ class Panda:
         if (phone_df['전화번호'] == check_Phone).any():  # 동일한 전화번호가 하나라도 있는 경우
             ndf =  self.Book_df[(self.Book_df["대여여부"]==False)]  # 기본 도서 데이터에 False가 있는 도서 추출
             ndf_np =  np.array(ndf["ISBN"]) # 해당하는 도서의 ISBN 추출
-            
+
+            return_data_list =[]
             for i in ndf_np:
-                df = phone_df[(phone_df["ISBN"]==i)]
-                dddd = pd.concat([df],axis=1)
-                nnn = ndf[(ndf['ISBN']==i)]
-                aaaa = pd.concat([nnn],axis=1)
-            
-            ISBN_df = dddd[['제목', '저자']]    # 데이터 프레임에서 제목, 저자 데이터만 가져옴
-            date = aaaa[['ISBN', '반납예정일']] # 데이터 프레임에서 ISBN, 반납예정일 데이터만 가져옴
-                            
-            self.return_np = np.array(pd.concat([ISBN_df, date],axis=1))    # 데이터프레임 두개를 병합하여 넘파이로 리턴
-            print(self.return_np)
+                df = np.array(phone_df[(phone_df["ISBN"]==i)]).tolist()[0]
+                date = df[4]    #반납 예정일
+
+                dddd = np.array(self.Book_df.loc[self.Book_df['ISBN'] == i]).tolist()[0]    #ISBN으로 도서 검색
+                book_name = dddd[1] #도서 제목
+                book_author = dddd[2] #도서 저자
+
+                return_data = [book_name,book_author,i,date]    #[제목,저자,ISBN,반납예정일]
+                return_data_list.append(return_data)
+
+            self.return_np = np.array(return_data_list)
             return self.return_np
         
     def book_return(self, check_Phone, book_ISBN):  # 도서 반납
