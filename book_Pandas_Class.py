@@ -133,7 +133,7 @@ class Panda:
                         self.Book_df.loc[self.Book_df.ISBN == int(book_ISBN), ('대여여부')] = (True)
                         self.Book_df.to_csv('Book_list.csv', encoding='utf-8', index=False)  # 수정된 데이터를 확인하기 위한 csv 파일 생성
                         # ISBN을 기준으로 수정하고자 하는 컬럼의 데이터 수정
-                        self.user_rent_df.loc[self.user_rent_df.ISBN == int(book_ISBN), ('대여여부', '대여일', '반납예정일')] = (True, None, None)
+                        self.user_rent_df.loc[self.user_rent_df.ISBN == int(book_ISBN), ('전화번호','대여여부', '대여일', '반납예정일')] = (None, True, None, None)
                         self.user_rent_df.to_csv('Book_rent.csv', encoding='utf-8', index=False)  # 수정된 데이터를 확인하기 위한 csv 파일 생성
                         return True
             else:
