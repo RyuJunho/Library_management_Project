@@ -7,12 +7,9 @@ from tkinter import messagebox
 def user_append(main): #회원등록(매개변수 = 초기화면)
 
     def append(): # 추가 버튼을 클릭했을 때 호출되는 이벤트 핸들러
-
-
         if len(entry_name.get()) == 0 or len(entry_birth.get()) == 0 or len(entry_num1.get()) == 0 or len(
                 entry_num2.get()) == 0 or len(entry_num3.get()) == 0 or len(entry_mail.get()) == 0: # 빈칸이 있으면
             messagebox.showerror('도서 관리 프로그램 메시지', '빈칸이 존재합니다.')  # 메시지박스 출력 후 등록화면창으로 돌아감
-
         else:
             check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '회원을 등록하시겠습니까?')  # 등록을 묻는 메시지박스 출력 (예, 아니오)
             if check_yn == 1:  # '예'를 누를경우

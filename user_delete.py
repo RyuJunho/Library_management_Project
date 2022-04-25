@@ -37,16 +37,28 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
             entry_num1.configure(state='disabled')  # '전화번호1' 엔트리를 읽기전용으로 상태설정
             entry_num2.configure(state='disabled')  # '전화번호2' 엔트리를 읽기전용으로 상태설정
             entry_num3.configure(state='disabled')  # '전화번호3' 엔트리를 읽기전용으로 상태설정
-            #us_list = pile.user_rent(num_Entry.get())  # 콤보박스, 엔트리 받아와서 저장
-            #treeview.insert('', 'end', values=us_list)
             if data_in[0][2]:
                 radio_sex.set(1)  # 여자
                 radio_wo.configure(state='disabled')  # '여자' 라디오 버튼을 읽기전용으로 상태설정
                 radio_man.configure(state='disabled')  # '남자' 라디오 버튼을 읽기전용으로 상태설정
+                us_list = pile.user_rent(num_Entry.get())  # 콤보박스, 엔트리 받아와서 저장
+                if us_list is None:
+                    for e in treeview.get_children():
+                        treeview.delete(e)
+                else:
+                    for i in us_list.tolist():
+                        treeview.insert('', 'end', text=i, values=i)
             else:
                 radio_sex.set(2)  # 남자
                 radio_wo.configure(state='disabled')  # '여자' 라디오 버튼을 읽기전용으로 상태설정
                 radio_man.configure(state='disabled')  # '남자' 라디오 버튼을 읽기전용으로 상태설정
+                us_list = pile.user_rent(num_Entry.get())  # 콤보박스, 엔트리 받아와서 저장
+                if us_list is None:
+                    for e in treeview.get_children():
+                        treeview.delete(e)
+                else:
+                    for i in us_list.tolist():
+                        treeview.insert('', 'end', text=i, values=i)
 
         else:
             messagebox.showerror('알림', '존재하지 않은 회원입니다.')
