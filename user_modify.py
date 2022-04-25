@@ -18,8 +18,7 @@ def user_modify(main):  # 회원 수정(매개변수 = 초기화면)
                 sex = pile.sex_change(radio_sex.get())
                 ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(
                     entry_num3.get())  # str로 전화번호 저장
-                us_list = pile.user_modify(entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
-                #us_num = pile.phone_recheck(num_Entry.get())
+                us_list = pile.user_modify(num_Entry.get(), entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
                 if us_rent:  # 대여중인 회원이면
                     messagebox.showerror('도서 관리 프로그램 메시지', '대여중인 회원입니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
                 elif not us_rent:
@@ -27,9 +26,9 @@ def user_modify(main):  # 회원 수정(매개변수 = 초기화면)
                         pu_()
                     elif num_Entry.get() != ph_num:
                         if us_list:
-                            messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')
-                        elif us_list is False:
                             pu_()
+                        elif us_list is False:
+                            messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')
 
 
             # 전화번호 중복 되면
