@@ -57,7 +57,8 @@ class Panda:
     def user_check(self, check_Phone):  # 해당하는 전화번호가 있는지 판별
         try :
             self.user_np = np.array(self.User_df[(self.User_df["전화번호"] == check_Phone)])
-            return self.user_np
+            if (self.user_np["탈퇴여부"] == True):
+                return self.user_np
         except :
             return False
      
