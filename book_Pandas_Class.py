@@ -62,7 +62,6 @@ class Panda:
             return False
      
     def ISBN_check(self, book_ISBN):    # 해당하는 ISBN이 있는지 판별
-        self.Book_df[(self.Book_df["ISBN"] == int(book_ISBN))]
         self.book_np = np.array(self.Book_df[(self.Book_df["ISBN"] == int(book_ISBN))])
         return self.book_np
         

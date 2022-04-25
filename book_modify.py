@@ -23,6 +23,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
                     df_insert(B_MPriEntry, 0, ISBN_check[0][4])
                     df_insert(B_MLinkEntry, 0, ISBN_check[0][5])
                     df_insert(B_MIntrscr, "1.0", ISBN_check[0][6])
+                    B_MISBNEntry.config(state='disabled')
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
     
