@@ -15,22 +15,23 @@ def user_modify(main):  # 회원 수정(매개변수 = 초기화면)
         else:
             check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '수정하시겠습니까?')  # 수정을 묻는 메시지박스 출력 (예, 아니오)
             if check_yn == 1:  # '예'를 누를경우
-                sex = pile.sex_change(radio_sex.get())
-                ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(
-                    entry_num3.get())  # str로 전화번호 저장
-                us_list = pile.user_modify(num_Entry.get(), entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
-                if us_rent:  # 대여중인 회원이면
-                    messagebox.showerror('도서 관리 프로그램 메시지', '대여중인 회원입니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
-                elif not us_rent:
-                    if num_Entry.get() == ph_num:
-                        pu_()
-                    elif num_Entry.get() != ph_num:
-                        if us_list:
+                if len(entry_num1.get()) == 3 and len(entry_num2.get()) == 4 and len(entry_num3.get()) == 4:
+                    sex = pile.sex_change(radio_sex.get())
+                    ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(
+                        entry_num3.get())  # str로 전화번호 저장
+                    us_list = pile.user_modify(num_Entry.get(), entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
+                    if us_rent:  # 대여중인 회원이면
+                        messagebox.showerror('도서 관리 프로그램 메시지', '대여중인 회원입니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
+                    elif not us_rent:
+                        if num_Entry.get() == ph_num:
                             pu_()
-                        elif us_list is False:
-                            messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')
-
-
+                        elif num_Entry.get() != ph_num:
+                            if us_list:
+                                pu_()
+                            elif us_list is False:
+                                messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')
+                else:
+                    messagebox.showerror('알림', '형식에 맞게 입력하세요.')  # 메시지 박스를 뜨운 후 등록화면창으로 돌아감 (내용을 비우지 않음)
             # 전화번호 중복 되면
             else:  # '아니오'를 누를경우
                 messagebox.showinfo('알림', '수정이 취소되었습니다.')  # 메시지박스 출력
