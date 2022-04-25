@@ -7,23 +7,22 @@ from book_Pandas_Class import*
 def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
     # 수정 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def ISBN_input():
-        if P_ShrEntry.get().isdigit: #숫자 형식인지 확인
-            try :
-                ISBN_check = book_Pandas.ISBN_check(int(P_ShrEntry.get()))   #ISBN로 도서데이터 추출
-                print(ISBN_check)
-            except :
+        if ISBN_Entry.get().isdigit: #숫자 형식인지 확인
+            ISBN_check = book_Pandas.ISBN_check(int(ISBN_Entry.get()))   #ISBN로 도서데이터 추출
+            print(ISBN_check)
+            if len(ISBN_check) == 0:
                 messagebox.showerror("도서 관리 프로그램", "존재하지 않는 ISBN입니다.")
                 return False
-            ISBNCheckBox = messagebox.askokcancel("도서 관리 프로그램", ISBN_check[0][1]+"도서가 맞으십니까?")
-            if ISBNCheckBox == 1:
-                df_insert(B_MISBNEntry, 0, ISBN_check[0][0])
-                df_insert(B_MnameEntry, 0, ISBN_check[0][1])
-                df_insert(B_MWirEntry, 0, ISBN_check[0][2])
-                df_insert(B_MPubEntry, 0, ISBN_check[0][3])
-                df_insert(B_MPriEntry, 0, ISBN_check[0][4])
-                df_insert(B_MLinkEntry, 0, ISBN_check[0][5])
-                df_insert(B_MIntrscr, "1.0", ISBN_check[0][6])
-                pass
+            else:
+                ISBNCheckBox = messagebox.askokcancel("도서 관리 프로그램", ISBN_check[0][1]+"도서가 맞으십니까?")
+                if ISBNCheckBox == 1:
+                    df_insert(B_MISBNEntry, 0, ISBN_check[0][0])
+                    df_insert(B_MnameEntry, 0, ISBN_check[0][1])
+                    df_insert(B_MWirEntry, 0, ISBN_check[0][2])
+                    df_insert(B_MPubEntry, 0, ISBN_check[0][3])
+                    df_insert(B_MPriEntry, 0, ISBN_check[0][4])
+                    df_insert(B_MLinkEntry, 0, ISBN_check[0][5])
+                    df_insert(B_MIntrscr, "1.0", ISBN_check[0][6])
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
     
@@ -81,21 +80,19 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     book_Pandas = Panda('Book_list.csv', 'user_list.csv','Book_rent.csv')
     
     ISBN_serch = Toplevel(main)
-    ISBN_serch.geometry("350x120")
+    ISBN_serch.geometry("340x120")
 
     # ISBN 입력 창 레이블
-    ShrLabel = Label(ISBN_serch)
-    ShrLabel.pack(padx=24)
-    P_ShrLabel = Label(ISBN_serch, text="ISBN")
-    P_ShrLabel.pack(side=LEFT, padx=22)
+    ISBN_Label = Label(ISBN_serch, text ="ISBN")
+    ISBN_Label.pack(side=LEFT, padx=20)
 
     # ISBN 입력 창 엔트리
-    P_ShrEntry = Entry(ISBN_serch, width=20)
-    P_ShrEntry.pack(side=LEFT)
+    ISBN_Entry = Entry(ISBN_serch, width=20)
+    ISBN_Entry.pack(side=LEFT)
 
     # ISBN 입력 창 버튼
-    P_ShrButton = Button(ISBN_serch, text="입력", width=8, command=ISBN_input)
-    P_ShrButton.pack(side=LEFT)
+    ISBN_Button = Button(ISBN_serch,text="입력", width=8, command=ISBN_input)
+    ISBN_Button.pack(side=LEFT)            
     
     frame = Frame(main)
     

@@ -68,6 +68,12 @@ def book_rent(main):
     def df_insert(rent_entry, num, data):
         rent_entry.insert(num, data)
         rent_entry.config(state='disabled')  
+
+    # 대출 불가시 나타나는 트리뷰 출력
+    def rent_insert(tree):
+        rent_np = book_Pandas.rent_data(getValue[2])
+        for i in rent_np.tolist():
+            tree.insert('', 'end', text=i, values=i)
             
     # 트리튜 클릭 시 나오는 새창
     def Book_info():
