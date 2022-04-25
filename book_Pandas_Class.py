@@ -108,7 +108,7 @@ class Panda:
                 df = np.array(phone_df[(phone_df["ISBN"]==int(i))])
                 try:
                     print(df)
-                    date = df[0][4]    #반납 예정일
+                    date = df[0][5]    #반납 예정일
                     book_name = df[0][1] #도서 제목
                     
                     df2 = np.array(self.Book_df.loc[self.Book_df['ISBN'] == int(i)])   #ISBN으로 도서 검색
