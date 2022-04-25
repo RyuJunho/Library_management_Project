@@ -12,25 +12,25 @@ def book_rent(main):
     def Phone_input():
         if len(P_ShrEntry.get()) == 13: #전화번호 형식인지 확인
             try :
-                phone = str(P_ShrEntry.get())
-                user_data_list = book_Pandas.user_check(phone)[0]   #전화번호로 회원데이터 추출
+                user_data_list = book_Pandas.user_check(P_ShrEntry.get())[0].tolist()   #전화번호로 회원데이터 추출
                 print(user_data_list)
             except :
                 messagebox.showerror("도서 관리 프로그램", "존재하지 않는 회원입니다.")
+                Rent_ShrButton.config(state='disabled')
                 return False
-
             PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", user_data_list[0]+"님이 맞으십니까?")
             if PhoneCheckBox == 1:
-                rent_insert(user_data_list[0])
-
+                user_list(user_data_list[3])
+                pass
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
+            Rent_ShrButton.config(state='disabled')
             
     # 도서 대출 버튼
     def book_rentButton(rent_main):
         rent_date = (datetime.today()).strftime("%Y-%m-%d")  # 대여일
         return_date = (datetime.today() + timedelta(14)).strftime("%Y-%m-%d")  # 대여 기간 계산
-        book_Pandas.book_rent(P_ShrEntry.get(), getValue[2], rent_date, return_date)
+        book_Pandas.book_rent(user_num, getValue[0], getValue[2], rent_date, return_date)
         messagebox.showinfo("도서 관리 프로그램", "대출되었습니다.\n(반납예정일 : " + return_date + ")")
         phone_serch.destroy()  # 확인을 누르면 창 닫기
         rent_main.destroy()
@@ -55,18 +55,23 @@ def book_rent(main):
         global getValue
         getValue = Rent_ShrTreeV.item(selectedItem, 'values')
         Book_info()  # 새창 불러오는 함수 사용
-
+    
+    def user_list(list):
+        global user_num
+        user_num = list
+        print(user_num)
+        return user_num
+    
     # 엔트리에 데이터 삽입
     def df_insert(rent_entry, num, data):
         rent_entry.insert(num, data)
         rent_entry.config(state='disabled')
 
-    # 대여 도서 트리뷰 데이터 삽입
-    def rent_insert(tree):
-        rent_np = book_Pandas.rent_data(getValue[2])
+    def rent_insert(ISBN, tree):
+        rent_np = book_Pandas.rent_data(ISBN)
         for i in rent_np.tolist():
-            tree.insert('', 'end', text=i, values=i)
-
+           tree.insert('', 'end', text=i, values=i)         
+            
     # 트리튜 클릭 시 나오는 새창
     def Book_info():
         rent_main = Tk()
@@ -191,7 +196,7 @@ def book_rent(main):
             # '저자'컬럼
             NoRent_TreeV.column("return_date", width=120)
             NoRent_TreeV.heading("return_date", text="반납예정일")
-            rent_insert(NoRent_TreeV)
+            rent_insert(book_bookC_np[0][0], NoRent_TreeV)
 
         frame.pack()
         rent_main.mainloop()
