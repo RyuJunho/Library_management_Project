@@ -11,8 +11,8 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
         check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '탈퇴하시겠습니까?')  # 탈퇴를 묻는 메시지박스 출력 (예, 아니오)
         if check_yn == 1:  # '예'를 누를 경우
             if us_list:  # 대여중인 회원이면
-                messagebox.showinfo('도서 관리 프로그램 메시지', '대여 중인 회원입니다.', command=phone_num)  # 메시지출력 후 삭제화면창으로 돌아감
-            else:
+                messagebox.showinfo('도서 관리 프로그램 메시지', '대여 중인 회원입니다.')  # 메시지출력 후 삭제화면창으로 돌아감
+            elif not us_list:
                 messagebox.showinfo('알림', '탈퇴되었습니다.')  # 탈퇴되었다는 메시지박스 출력 (확인)
             # 메인창으로 이동
         else:  # '아니오'를 누를 경우

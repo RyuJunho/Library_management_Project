@@ -30,9 +30,11 @@ class Main:
     def user_modify(self, name, birth, sex, phone, email):  # 회원 수정
         del_us = self.USER[(self.USER['전화번호'] == phone)]
         if (del_us['전화번호'] == phone).any():
-            append = pd.DataFrame([{'이름': name, '생년월일': birth, '성별': sex, '전화번호': phone, '이메일': email, '탈퇴여부': True}])
-            self.USER = pd.concat([self.USER, append]).sort_values(by='이름', axis=0)
+            self.USER.loc[self.USER.전화번호 == phone, ('이름', '생년월일', '성별', '전화번호', '이메일', '탈퇴여부')] = (
+                name, birth, sex, phone, email, True)
+            self.USER = self.USER.sort_values(by=['이름'], axis=0)
             self.USER.to_csv('user_list.csv', index=False)
+            return False
         else:
             print('등록되지 않은 회원입니다.\n')
             return True
@@ -44,6 +46,7 @@ class Main:
         else:
             self.USER.loc[self.USER['전화번호'].str.contains(rent), ('탈퇴여부')] = (False)
             self.USER.to_csv('user_list.csv', index=None)
+            return False
 
     def user_check(self, phone):  # 회원 탈퇴 - 회원 중복 검색
         del_us = self.USER[(self.USER['전화번호'] == phone)]
@@ -55,7 +58,6 @@ class Main:
                 return True
         else:
             print('존재하지 않은 회원입니다.\n')
-            messagebox.showerror('알림', '존재하지 않은 회원입니다.')
             return False
 
     def user_number(self, phone):  # 해당 회원 상세정보 저장
@@ -78,9 +80,17 @@ class Main:
         phone3 = phone[9:13]
         return phone1, phone2, phone3
 
-    def phone_recheck(self, phone):
-        if (self.USER['전화번호'] == phone).any():  # 전화번호 중복 검색
-            return 1
+    def sex_change(self, sex):
+        if sex == 1:
+            sex = False
+            return sex
+        elif sex == 2:
+            sex = True
+            return sex
+
+    def user_ren(self, rent):  # 회원 대여여부 검색
+        if (self.RENT['전화번호'] == rent).any():
+            print('책을 대여 중인 회원입니다.\n')
+            return True
         else:
-            print('중복되지 않은 회원입니다.')
-            return 2
+            return False
