@@ -27,16 +27,16 @@ class Main:
             self.USER = pd.concat([self.USER, append]).sort_values(by='이름', axis=0)
             self.USER.to_csv('user_list.csv', index=False)
 
-    def user_modify(self, name, birth, sex, phone, email):  # 회원 수정
+    def user_modify(self, ph_in, name, birth, sex, phone, email):  # 회원 수정
         del_us = self.USER[(self.USER['전화번호'] == phone)]
         if (del_us['전화번호'] == phone).any():
-            self.USER.loc[self.USER.전화번호 == phone, ('이름', '생년월일', '성별', '전화번호', '이메일', '탈퇴여부')] = (
+            print('등록되지 않은 회원입니다.\n')
+            return False
+        else:
+            self.USER.loc[self.USER.전화번호 == ph_in, ('이름', '생년월일', '성별', '전화번호', '이메일', '탈퇴여부')] = (
                 name, birth, sex, phone, email, True)
             self.USER = self.USER.sort_values(by=['이름'], axis=0)
             self.USER.to_csv('user_list.csv', index=False)
-            return False
-        else:
-            print('등록되지 않은 회원입니다.\n')
             return True
 
     def user_delete(self, rent):  # 회원 탈퇴 - 회원 대여여부 검색
@@ -67,9 +67,8 @@ class Main:
     def user_rent(self, phone):  # 회원 탈퇴 - 도서 트리뷰 추가
         del_tree = self.RENT[(self.RENT['전화번호'] == phone)]
         if (del_tree['전화번호'] == phone).any():
-            del_tree = del_tree[['제목', '반납예정일']]
-            self.rent_np = np.array(del_tree)
-            return self.rent_np
+            search = np.array(self.RENT.loc[self.RENT['전화번호'].str.contains(phone), ['제목', '반납예정일']])
+            return search
         else:
             print('대여중인 도서가 없습니다.')
             search = np.array([None, None])
