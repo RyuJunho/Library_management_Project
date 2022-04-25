@@ -23,8 +23,6 @@ class Main:
         if (self.USER['전화번호'] == phone).any():  # 전화번호 중복 검색
             return True
         else:
-
-
             append = pd.DataFrame([{'이름': name, '생년월일': birth, '성별': sex, '전화번호': phone, '이메일': email, '탈퇴여부': True}])
             self.USER = pd.concat([self.USER, append]).sort_values(by='이름', axis=0)
             self.USER.to_csv('user_list.csv', index=False)
@@ -84,3 +82,10 @@ class Main:
         phone2 = phone[4:8]
         phone3 = phone[9:13]
         return phone1, phone2, phone3
+
+    def phone_recheck(self, phone):
+        if (self.USER['전화번호'] == phone).any():  # 전화번호 중복 검색
+            return 1
+        else:
+            print('중복되지 않은 회원입니다.')
+            return 2

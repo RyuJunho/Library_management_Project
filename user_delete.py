@@ -30,7 +30,6 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
             entry_birth.configure(state='disabled')  # '생년월일' 엔트리를 읽기전용으로 상태설정
             entry_mail.insert(0, data_in[0][4])
             entry_mail.configure(state='disabled')  # '이메일' 엔트리를 읽기전용으로 상태설정
-            # entry_num1.insert(0, data_in[0][3])
             ph1, ph2, ph3 = pile.phone_cut(num_Entry.get())
             entry_num1.insert(0, ph1)
             entry_num2.insert(0, ph2)

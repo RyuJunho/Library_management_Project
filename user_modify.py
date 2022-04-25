@@ -8,24 +8,20 @@ def user_modify(main) :    # 회원 수정(매개변수 = 초기화면)
 
     # 수정 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def modify():
-        ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(entry_num3.get())  # str로 전화번호 저장
-        #us_num = pile.user_check(ph_num)
-        us_rent = pile.user_delete(ph_num)
+        us_rent = pile.user_delete(num_Entry.get())
+        us_num = pile.phone_recheck(num_Entry.get())
         if len(entry_name.get()) == 0 or len(entry_birth.get()) == 0 or len(entry_num1.get()) == 0 or len(
                 entry_num2.get()) == 0 or len(entry_num3.get()) == 0 or len(entry_mail.get()) == 0:
             messagebox.showerror('도서 관리 프로그램 메시지', '빈칸이 존재합니다.')  # 빈칸이 있으면 메시지박스 출력 후 수정화면창으로 돌아감
-
-        #elif us_num:  # 전화번호 중복 되면 (아직 구현 x)
-        #    messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.') # 메시지박스 출력 후 수정화면창으로 돌아감
-
+        elif us_num == 1:  # 전화번호 중복 되면
+            messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.') # 메시지박스 출력 후 수정화면창으로 돌아감
         elif us_rent:  # 대여중인 회원이면
             messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
-
         else:
             check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '수정하시겠습니까?')  # 수정을 묻는 메시지박스 출력 (예, 아니오)
             if check_yn == 1:  # '예'를 누를경우
                 sex = pile.sex_change(radio_sex.get())
-                us_list = pile.user_modify(entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
+                us_list = pile.user_modify(entry_name.get(), entry_birth.get(), sex, num_Entry.get(), entry_mail.get())
                 if us_list:
                     messagebox.showerror('도서 관리 프로그램 메시지', '등록되지 않은 회원입니다.')
                 else:
@@ -41,7 +37,40 @@ def user_modify(main) :    # 회원 수정(매개변수 = 초기화면)
                 messagebox.showinfo('알림', '수정이 취소되었습니다.')  # 메시지박스 출력
                 # 수정화면창으로 돌아감 (내용을 비우지 않음)
 
+    def phone_num():
+        entry_name.focus()  # 키보드 입력 초점
+        us_num = pile.user_check(num_Entry.get())
+        if us_num:
+            mini.withdraw()
+            data_in = pile.user_number(num_Entry.get())
+            entry_name.insert(0, data_in[0][0])
+            entry_birth.insert(0, data_in[0][1])
+            entry_mail.insert(0, data_in[0][4])
+            ph1, ph2, ph3 = pile.phone_cut(num_Entry.get())
+            entry_num1.insert(0, ph1)
+            entry_num2.insert(0, ph2)
+            entry_num3.insert(0, ph3)
+            if data_in[0][2]:
+                radio_sex.set(1)  # 여자
+            else:
+                radio_sex.set(2)  # 남자
+
     pile = Main('user_list.csv', 'Book_rent.csv')
+
+    mini = Toplevel(main)
+    mini.title('전화번호 입력')
+    mini.geometry('400x140')
+    mini.resizable(width=False, height=False)
+    num_Label = Label(mini, text='000-0000-0000 형식으로 입력하세요.')
+    num_Label.pack(pady=20)
+
+    num_Entry = Entry(mini, width=20)
+    num_Entry.pack(pady=5)
+    num_Entry.focus()  # 키보드 입력 초점
+
+    num_Button = Button(mini, text='입력', width=6, command=phone_num)
+    num_Button.pack(pady=5)
+
     frame = Frame(main)
 
     label_append = Label(frame, text='회원수정') # '회원수정' 레이블 생성 글자크기 설정
@@ -55,7 +84,6 @@ def user_modify(main) :    # 회원 수정(매개변수 = 초기화면)
 
     entry_name = Entry(text_frame, width=30) # '이름' 엔트리(텍스트박스) 생성
     entry_name.grid(row=2, column=2) # '이름' 엔트리를 main에 부착
-    entry_name.focus()  # 키보드 입력 초점
 
     label_birth = Label(text_frame, text='생년월일', width=10) # '생년월일' 레이블 생성
     label_birth.grid(row=3, column=1, pady=10) # '생년월일' 레이블을 main에 부착
