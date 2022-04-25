@@ -16,6 +16,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
             else:
                 ISBNCheckBox = messagebox.askokcancel("도서 관리 프로그램", ISBN_check[0][1]+"도서가 맞으십니까?")
                 if ISBNCheckBox == 1:
+                    re()
                     df_insert(B_MISBNEntry, 0, ISBN_check[0][0])
                     df_insert(B_MnameEntry, 0, ISBN_check[0][1])
                     df_insert(B_MWirEntry, 0, ISBN_check[0][2])
@@ -30,6 +31,16 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     # 엔트리에 데이터 삽입
     def df_insert(rent_entry, num, data):
         rent_entry.insert(num, data)
+        
+    def re():
+        B_MISBNEntry.config(state='normal')
+        B_MnameEntry.delete(0, "end")
+        B_MPubEntry.delete(0, "end")
+        B_MISBNEntry.delete(0, "end")
+        B_MLinkEntry.delete(0, "end")
+        B_MWirEntry.delete(0, "end")
+        B_MPriEntry.delete(0, "end")
+        B_MIntrscr.delete("1.0", "end")
               
     def modify():
         print('수정 버튼 클릭')
@@ -39,12 +50,6 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
                 B_MLinkEntry.get()) == 0 or len(B_MPriEntry.get()) == 0 or len(B_MWirEntry.get()) == 0 or len(
                 B_MIntrscr.get("1.0", "end")) == 0:
                     messagebox.showerror("도서 관리 프로그램", "빈칸이 존재합니다.\n빈칸을 입력하세요.")
-
-        # ISBN 중복 되면 (아직 구현 x)
-        # 메시지박스 출력 후 수정화면창으로 돌아감
-
-        # 대여중인 도서이면  (아직 구현 x)
-        # 메시지박스 출력 후 수정화면창으로 돌아감
 
         # 수정을 묻는 메시지박스 출력 (예, 아니오)
         else:
@@ -60,13 +65,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
                         # 수정되었다는 메시지박스 출력 (확인)
                         messagebox.showinfo("도서 관리 프로그램", "수정되었습니다.")
                         # 엔트리와 텍스트의 내용을 비움
-                        B_MnameEntry.delete(0, "end")
-                        B_MPubEntry.delete(0, "end")
-                        B_MISBNEntry.delete(0, "end")
-                        B_MLinkEntry.delete(0, "end")
-                        B_MWirEntry.delete(0, "end")
-                        B_MPriEntry.delete(0, "end")
-                        B_MIntrscr.delete("1.0", "end")
+                        re()
                     else:
                         messagebox.showerror("도서 관리 프로그램", "등록되지 않은 도서입니다.")
                 else:
