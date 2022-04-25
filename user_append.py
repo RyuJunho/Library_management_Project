@@ -14,19 +14,22 @@ def user_append(main): #회원등록(매개변수 = 초기화면)
             check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '회원을 등록하시겠습니까?')  # 등록을 묻는 메시지박스 출력 (예, 아니오)
             if check_yn == 1:  # '예'를 누를경우
                 pile = Main('user_list.csv', 'Book_rent.csv')
-                ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(entry_num3.get()) # str로 전화번호 저장
-                sex = pile.sex_change(radio_sex.get())
-                us_list = pile.user_append(entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
-                if us_list:  # 중복된 전화번호일 경우
-                    messagebox.showinfo("도서 관리 프로그램 메시지", "이미 등록된 전화번호입니다.")  # 메시지박스 출력 후 등록화면창으로 돌아감
-                else:  # 아닐 경우
-                    messagebox.showinfo('알림', '등록되었습니다.')  # 등록되었다는 메시지박스 출력 (확인)
-                    entry_name.delete(0, 'end')  # 엔트리와 텍스트의 내용을 비움
-                    entry_birth.delete(0, 'end')
-                    entry_num1.delete(0, 'end')
-                    entry_num2.delete(0, 'end')
-                    entry_num3.delete(0, 'end')
-                    entry_mail.delete(0, 'end')
+                if len(entry_num1.get()) == 3 and len(entry_num2.get()) == 4 and len(entry_num3.get()) == 4:
+                    ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(entry_num3.get()) # str로 전화번호 저장
+                    sex = pile.sex_change(radio_sex.get())
+                    us_list = pile.user_append(entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
+                    if us_list:  # 중복된 전화번호일 경우
+                        messagebox.showinfo("도서 관리 프로그램 메시지", "이미 등록된 전화번호입니다.")  # 메시지박스 출력 후 등록화면창으로 돌아감
+                    else:  # 아닐 경우
+                        messagebox.showinfo('알림', '등록되었습니다.')  # 등록되었다는 메시지박스 출력 (확인)
+                        entry_name.delete(0, 'end')  # 엔트리와 텍스트의 내용을 비움
+                        entry_birth.delete(0, 'end')
+                        entry_num1.delete(0, 'end')
+                        entry_num2.delete(0, 'end')
+                        entry_num3.delete(0, 'end')
+                        entry_mail.delete(0, 'end')
+                else:
+                    messagebox.showerror('알림', '형식에 맞게 입력하세요.')  # 메시지 박스를 뜨운 후 등록화면창으로 돌아감 (내용을 비우지 않음)
             else:  # '아니오'를 누를경우
                 messagebox.showinfo('알림', '등록이 취소되었습니다.')  # 메시지 박스를 뜨운 후 등록화면창으로 돌아감 (내용을 비우지 않음)
 
