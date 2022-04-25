@@ -32,7 +32,6 @@ def book_rent(main):
         return_date = (datetime.today() + timedelta(14)).strftime("%Y-%m-%d")  # 대여 기간 계산
         book_Pandas.book_rent(user_num, getValue[0], getValue[2], rent_date, return_date)
         messagebox.showinfo("도서 관리 프로그램", "대출되었습니다.\n(반납예정일 : " + return_date + ")")
-        user_num = ''
         phone_serch.destroy()  # 확인을 누르면 창 닫기
         rent_main.destroy()
 
