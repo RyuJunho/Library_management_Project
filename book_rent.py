@@ -21,7 +21,6 @@ def book_rent(main):
             PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", user_data_list[0]+"님이 맞으십니까?")
             if PhoneCheckBox == 1:
                 user_list(user_data_list[3])
-                pass
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
             Rent_ShrButton.config(state='disabled')
@@ -68,12 +67,7 @@ def book_rent(main):
     # 엔트리에 데이터 삽입
     def df_insert(rent_entry, num, data):
         rent_entry.insert(num, data)
-        rent_entry.config(state='disabled')
-
-    def rent_insert(ISBN, tree):
-        rent_np = book_Pandas.rent_data(ISBN)
-        for i in rent_np.tolist():
-           tree.insert('', 'end', text=i, values=i)         
+        rent_entry.config(state='disabled')  
             
     # 트리튜 클릭 시 나오는 새창
     def Book_info():
