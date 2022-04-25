@@ -1,3 +1,4 @@
+from operator import index
 import pandas as pd
 import numpy as np
 
@@ -6,7 +7,7 @@ class Panda:
         self.Book_df = pd.read_csv(book).sort_values(by=['제목'],axis=0)  # 데이터 프레임을 공유하기 위해 self로 데이터 프레임 생성
         self.User_df = pd.read_csv(user).sort_values(by=['이름'], axis=0)  # 회원 존재 여부를 확인하기 위한 데이터 프레임 생성
         self.user_rent_df = pd.read_csv(rent).sort_values(by=['대여여부'], axis=0)  # 대출관리 초기 데이터를 데이터 프레임으로 생성
-        
+      
     def book_search(self, combo, data_search):  # 도서 검색
         if combo == "제목":  # 콤보 박스를 제목으로 선택했을 때
             self.T_search_np = np.array(self.Book_df.loc[self.Book_df['제목'].str.contains(data_search), ['제목', '저자', 'ISBN', '대여여부']])  # 제목 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
@@ -70,7 +71,7 @@ class Panda:
         self.book_np = np.array(self.Book_df[(self.Book_df["ISBN"] == int(book_ISBN))])
         return self.book_np
         
-    def book_rent(self, check_Phone, rent_ISBN, rent_date, return_date):  # 도서 대여
+    def book_rent(self, check_Phone, book_name, rent_ISBN, rent_date, return_date):  # 도서 대여
         check_df = self.Book_df[(self.Book_df["ISBN"] == int(rent_ISBN))]   # 도서 파일에 해당하는 ISBN이 있는지
         rent_df = self.user_rent_df[(self.user_rent_df["ISBN"] == int(rent_ISBN))]  # 대출 파일에 해당하는 ISBN이 있는지
         if (check_df['대여여부'] == False).any():  # 대여하고자 하는 도서가 대여 중인 경우
@@ -83,7 +84,7 @@ class Panda:
                 self.Book_df.to_csv('Book_list.csv', encoding='utf-8', index=False)  # 등록된 데이터프레임을 확인하는 csv 파일 생성
                 self.user_rent_df.to_csv('Book_rent.csv', encoding='utf-8', index=False)  # 대여한 데이터를 확인하기 위한 csv 파일 생성
             else:
-                rent_df_insert = ([{'ISBN': rent_ISBN, '전화번호': check_Phone,
+                rent_df_insert = ([{'ISBN': rent_ISBN, '제목': book_name, '전화번호': check_Phone,
                                     '대여여부': False, '대여일': rent_date, '반납예정일': return_date}])  # 대출 관리 데이터 생성
                 print(rent_df_insert)
                 self.Book_df.loc[self.Book_df.ISBN == int(rent_ISBN), ('대여여부')] = (False)  # 도서 데이터 프레임에 있는 데이터도 대여 불가로 변경
@@ -107,23 +108,28 @@ class Panda:
             ndf =  self.Book_df[(self.Book_df["대여여부"]==False)]  # 기본 도서 데이터에 False가 있는 도서 추출
             ndf_np =  np.array(ndf["ISBN"]) # 해당하는 도서의 ISBN 추출
 
-            return_data_list =[]
+            return_data_list = []
             for i in ndf_np:
-                df = np.array(phone_df[(phone_df["ISBN"]==i)]).tolist()[0]
-                date = df[4]    #반납 예정일
-
-                dddd = np.array(self.Book_df.loc[self.Book_df['ISBN'] == i]).tolist()[0]    #ISBN으로 도서 검색
-                book_name = dddd[1] #도서 제목
-                book_author = dddd[2] #도서 저자
-
-                return_data = [book_name,book_author,i,date]    #[제목,저자,ISBN,반납예정일]
-                return_data_list.append(return_data)
-
+                print(phone_df)
+                df = np.array(phone_df[(phone_df["ISBN"]==int(i))])
+                try:
+                    print(df)
+                    date = df[0][4]    #반납 예정일
+                    book_name = df[0][1] #도서 제목
+                    
+                    df2 = np.array(self.Book_df.loc[self.Book_df['ISBN'] == int(i)])   #ISBN으로 도서 검색
+                    book_author = df2[0][2] #도서 저자
+                    return_data = [book_name,book_author,i,date]    #[제목,저자,ISBN,반납예정일]
+                    return_data_list.append(return_data)
+                except:
+                    pass
             self.return_np = np.array(return_data_list)
+            print(self.return_np)
             return self.return_np
         
     def book_return(self, check_Phone, book_ISBN):  # 도서 반납
         phone_df = self.user_rent_df[(self.user_rent_df["전화번호"] == check_Phone)]  # 회원의 전화번호로 대여된 도서가 있는지 확인
+        print(phone_df)
         if (phone_df['전화번호'] == check_Phone).any():  # 동일한 전화번호가 하나라도 있는지 확인
             if (phone_df['ISBN'] == int(book_ISBN)).any():  # 반납하고자 하는 도서 ISBN이 동일한 경우
                 if (phone_df['대여여부'] == False).any():  # 대여 중인 경우

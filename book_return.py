@@ -9,32 +9,37 @@ def book_return(main) :
     def Phone_input():
         if len(P_ShrEntry.get()) == 13: #전화번호 형식인지 확인
             try :
-                phone = str(P_ShrEntry.get())
-                user_data_list = book_Pandas.user_check(phone)[0]   #전화번호로 회원데이터 추출
-                print(user_data_list)
+                user_data_list = book_Pandas.user_check(P_ShrEntry.get())[0].tolist()   #전화번호로 회원데이터 추출
             except :
                 messagebox.showerror("도서 관리 프로그램", "존재하지 않는 회원입니다.")
                 return False
-
             PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", user_data_list[0]+"님이 맞으십니까?")
             if PhoneCheckBox == 1:
-                rent_insert(user_data_list[0])
-
+                user_list(user_data_list[3])
+                rent_insert(user_data_list[3])
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
-        
+                
     # 트리뷰 클릭 이벤트(트리뷰 데이터 삭제)
     def Return_tree_click(event):
         selected_item = Return_tree.focus() # 트리뷰 선택
         getValue = Return_tree.item(selected_item, 'values')
-        
         if (selected_item != ""): # 선택한 트리뷰가 있을 경우
             ReCheckBox = messagebox.askokcancel("도서 관리 프로그램", "반납하시겠습니까?")
             if ReCheckBox == 1:
                 messagebox.showinfo("도서 관리 프로그램", "반납되었습니다.")
                 if (selected_item != ""):
-                    book_Pandas.book_return(P_ShrEntry.get(), getValue[2])
+                    book_Pandas.book_return(user_num, getValue[2])
                     Return_tree.delete(selected_item) # 선택한 트리뷰 데이터 삭제
+                    phone_serch.destroy()
+    
+    
+    def user_list(list):
+        global user_num
+        user_num = list
+        print(user_num)
+        return user_num
+                
                 
     def rent_insert(phone_number):
         return_np = book_Pandas.return_data(phone_number)
@@ -55,6 +60,8 @@ def book_return(main) :
     phone_serch.geometry("360x120")
 
     # 전화번호 입력 창 레이블
+    ShrLabel = Label(phone_serch, text="000-0000-0000 으로 입력하세요.")
+    ShrLabel.pack(padx=20, pady=10)
     P_ShrLabel = Label(phone_serch, text ="전화번호")
     P_ShrLabel.pack(side=LEFT, padx=20)
 
