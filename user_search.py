@@ -6,8 +6,10 @@ from user_Pandas_Class import*
 def user_search(main) : #회원검색(매개변수 = 초기화면)
 
     def search(): # 검색 버튼을 클릭했을 때 호출되는 이벤트 핸들러
-        user_pi = Main('USER_list.csv')
+        user_pi = Main('user_list.csv', 'Book_rent.csv')
         us_list = user_pi.user_search(combox.get(), input_tx.get()) # 콤보박스, 엔트리 받아와서 저장
+        for e in user_view.get_children():
+            user_view.delete(e)
         for i in us_list.tolist():
             user_view.insert('', 'end', text=i, values=i)
 
