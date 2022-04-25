@@ -31,6 +31,7 @@ def book_rent(main):
         return_date = (datetime.today() + timedelta(14)).strftime("%Y-%m-%d")  # 대여 기간 계산
         book_Pandas.book_rent(user_num, getValue[0], getValue[2], rent_date, return_date)
         messagebox.showinfo("도서 관리 프로그램", "대출되었습니다.\n(반납예정일 : " + return_date + ")")
+        re(Rent_ShrTreeV)
         phone_serch.destroy()  # 확인을 누르면 창 닫기
         rent_main.destroy()
 
@@ -74,6 +75,7 @@ def book_rent(main):
         rent_np = book_Pandas.rent_data(getValue[2])
         for i in rent_np.tolist():
             tree.insert('', 'end', text=i, values=i)
+            
             
     # 트리튜 클릭 시 나오는 새창
     def Book_info():
@@ -199,7 +201,7 @@ def book_rent(main):
             # '저자'컬럼
             NoRent_TreeV.column("return_date", width=120)
             NoRent_TreeV.heading("return_date", text="반납예정일")
-            rent_insert(book_bookC_np[0][0], NoRent_TreeV)
+            rent_insert(NoRent_TreeV)
 
         frame.pack()
         rent_main.mainloop()
