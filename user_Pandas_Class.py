@@ -55,6 +55,7 @@ class Main:
                 return True
         else:
             print('존재하지 않은 회원입니다.\n')
+            messagebox.showerror('알림', '존재하지 않은 회원입니다.')
             return False
 
     def user_number(self, phone):  # 해당 회원 상세정보 저장
@@ -68,14 +69,8 @@ class Main:
             return search
         else:
             print('대여중인 도서가 없습니다.')
-
-    def sex_change(self, sex):
-        if sex == 1:  # 성별
-            sex = False
-            return sex
-        elif sex == 2:
-            sex = True
-            return sex
+            search = np.array([None, None])
+            return search
 
     def phone_cut(self, phone):
         phone1 = phone[0:3]
