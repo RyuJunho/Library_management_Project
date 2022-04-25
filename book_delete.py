@@ -30,19 +30,24 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
                 messagebox.showinfo('도서 관리 프로그램', "삭제가 취소 되었습니다.")
 
     def ISBN_input():
-            print("ISBN 입력")
-            ISBN_np = book_Pandas.del_ISBN(ISBN_Entry.get())    # 클래스에서 반환된 넘파이 불러옴
-            if len(ISBN_np) != 0:
-                if ISBN_np[0][0] == int(ISBN_Entry.get()): # ISBN이 동일한지(임시데이터)
-                    df_insert(B_DISBNEntry, 0, ISBN_np[0][0])
-                    df_insert(B_nameEntry, 0, ISBN_np[0][1])
-                    df_insert(B_DWirEntry, 0, ISBN_np[0][2])
-                    df_insert(B_DPubEntry, 0, ISBN_np[0][3])
-                    df_insert(B_DPriEntry, 0, ISBN_np[0][4])
-                    df_insert(B_DLinkEntry, 0, ISBN_np[0][5])
-                    df_insert(B_DIntrscr, "1.0", ISBN_np[0][6])
+        if ISBN_Entry.get().isdigit: #숫자 형식인지 확인
+            ISBN_check = book_Pandas.ISBN_check(int(ISBN_Entry.get()))   #ISBN로 도서데이터 추출
+            print(ISBN_check)
+            if len(ISBN_check) == 0:
+                messagebox.showerror("도서 관리 프로그램", "존재하지 않는 ISBN입니다.")
+                return False
             else:
-                messagebox.showerror('도서 관리 프로그램', "존재하지 않는 도서입니다.")
+                ISBNCheckBox = messagebox.askokcancel("도서 관리 프로그램", ISBN_check[0][1]+"도서가 맞으십니까?")
+                if ISBNCheckBox == 1:
+                    df_insert(B_DISBNEntry, 0, ISBN_check[0][0])
+                    df_insert(B_nameEntry, 0, ISBN_check[0][1])
+                    df_insert(B_DWirEntry, 0, ISBN_check[0][2])
+                    df_insert(B_DPubEntry, 0, ISBN_check[0][3])
+                    df_insert(B_DPriEntry, 0, ISBN_check[0][4])
+                    df_insert(B_DLinkEntry, 0, ISBN_check[0][5])
+                    df_insert(B_DIntrscr, "1.0", ISBN_check[0][6])
+        else:
+            messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
     
     def df_insert(del_entry,num, ISBN):
         del_entry.insert(num,ISBN)
@@ -51,15 +56,15 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
     ISBN_serch = Toplevel(main)
     ISBN_serch.geometry("340x120")
 
-    # 전화번호 입력 창 레이블
+    # ISBN 입력 창 레이블
     ISBN_Label = Label(ISBN_serch, text ="ISBN")
     ISBN_Label.pack(side=LEFT, padx=20)
 
-    # 전화번호 입력 창 엔트리
+    # ISBN 입력 창 엔트리
     ISBN_Entry = Entry(ISBN_serch, width=20)
     ISBN_Entry.pack(side=LEFT)
 
-    # 전화번호 입력 창 버튼
+    # ISBN 입력 창 버튼
     ISBN_Button = Button(ISBN_serch,text="입력", width=8, command=ISBN_input)
     ISBN_Button.pack(side=LEFT)            
 

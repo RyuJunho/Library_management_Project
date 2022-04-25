@@ -53,10 +53,6 @@ class Panda:
                 return True
         else:  # 해당하는 ISBN을 가진 데이터가 없는 경우
             print('존재하지 않는 도서입니다.\n')
-    
-    def del_ISBN(self, del_ISBN):   # 트리뷰에 데이터를 삽입하기 위한 함수
-        self.B_del_np = np.array(self.Book_df[(self.Book_df["ISBN"] == int(del_ISBN))])  # ISBN이 동일한 도서의 데이터를 확인하기 위한 데이터 프레임 생성
-        return self.B_del_np
    
     def user_check(self, check_Phone):  # 해당하는 전화번호가 있는지 판별
         try :
@@ -66,7 +62,7 @@ class Panda:
             return False
      
     def ISBN_check(self, book_ISBN):    # 해당하는 ISBN이 있는지 판별
-        ISBN_check_df = self.Book_df[(self.Book_df["ISBN"] == int(book_ISBN))]
+        self.Book_df[(self.Book_df["ISBN"] == int(book_ISBN))]
         self.book_np = np.array(self.Book_df[(self.Book_df["ISBN"] == int(book_ISBN))])
         return self.book_np
         
