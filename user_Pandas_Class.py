@@ -63,9 +63,13 @@ class Main:
         data_in = np.array(self.USER[self.USER['전화번호'] == phone])
         return data_in
 
-    #def user_rent(self, rent):  # 트리뷰 추가
-    #    search = np.array(self.RENT.loc[self.USER['전화번호'].str.contains(rent), ['제목', '반납 예정일']])
-    #    return search
+    def user_rent(self, phone):  # 회원 탈퇴 - 도서 트리뷰 추가
+        del_tree = self.RENT[(self.RENT['전화번호'] == phone)]
+        if (del_tree['전화번호'] == phone).any():
+            search = np.array(self.RENT.loc[self.RENT['전화번호'].str.contains(phone), ['제목', '반납예정일']])
+            return search
+        else:
+            print('대여중인 도서가 없습니다.')
 
     def sex_change(self, sex):
         if sex == 1:  # 성별
@@ -74,3 +78,9 @@ class Main:
         elif sex == 2:
             sex = True
             return sex
+
+    def phone_cut(self, phone):
+        phone1 = phone[0:3]
+        phone2 = phone[4:8]
+        phone3 = phone[9:13]
+        return phone1, phone2, phone3

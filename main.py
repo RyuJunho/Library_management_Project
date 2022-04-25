@@ -108,6 +108,7 @@ height = 600
 x = (sw/2) - (width/2)
 y = (sh/2) - (height/2)
 main.geometry('%dx%d+%d+%d' % (width, height, x, y)) #메인창 크기 고정, 중앙에 출력되도록 설정
+main.resizable(width=False, height=False) #메인창 크기 고정
 
 global frame
 frame = Frame(main)

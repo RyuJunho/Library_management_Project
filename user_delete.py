@@ -31,9 +31,15 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
             entry_mail.insert(0, data_in[0][4])
             entry_mail.configure(state='disabled')  # '이메일' 엔트리를 읽기전용으로 상태설정
             # entry_num1.insert(0, data_in[0][3])
+            ph1, ph2, ph3 = pile.phone_cut(num_Entry.get())
+            entry_num1.insert(0, ph1)
+            entry_num2.insert(0, ph2)
+            entry_num3.insert(0, ph3)
             entry_num1.configure(state='disabled')  # '전화번호1' 엔트리를 읽기전용으로 상태설정
             entry_num2.configure(state='disabled')  # '전화번호2' 엔트리를 읽기전용으로 상태설정
             entry_num3.configure(state='disabled')  # '전화번호3' 엔트리를 읽기전용으로 상태설정
+            #us_list = pile.user_rent(num_Entry.get())  # 콤보박스, 엔트리 받아와서 저장
+            #treeview.insert('', 'end', values=us_list)
             if data_in[0][2]:
                 radio_sex.set(1)  # 여자
                 radio_wo.configure(state='disabled')  # '여자' 라디오 버튼을 읽기전용으로 상태설정
@@ -120,14 +126,14 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
     entry_mail.grid(row=6, column=2) # '이메일' 엔트리를 main에 부착
 
 
-    treeview = Treeview(frame, columns=['#1'], displaycolumns=['#1'], height=1)
+    treeview = Treeview(frame, columns=['대출', '반납'], displaycolumns=['대출', '반납'], show='headings', height=1)
     treeview.grid(row=3, column=1, pady=40)
 
-    treeview.column('#0', width=170, anchor="center")
-    treeview.heading('#0', text='대출 목록', anchor="center")
+    treeview.column('대출', width=170, anchor="center")
+    treeview.heading('대출', text='대출 목록', anchor="center")
 
-    treeview.column('#1', width=120, anchor="center")
-    treeview.heading('#1', text='반납 예정일', anchor="center")
+    treeview.column('반납', width=120, anchor="center")
+    treeview.heading('반납', text='반납 예정일', anchor="center")
 
     us_plus = Button(frame, text='탈퇴', width=5, command=delete) # '탈퇴'버튼 생성 (command = delete)
     us_plus.grid(row=4, column=1, pady=5)   # 버튼을 main 부착
