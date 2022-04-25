@@ -39,6 +39,7 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
             else:
                 ISBNCheckBox = messagebox.askokcancel("도서 관리 프로그램", ISBN_check[0][1]+"도서가 맞으십니까?")
                 if ISBNCheckBox == 1:
+                    re()
                     df_insert(B_DISBNEntry, 0, ISBN_check[0][0])
                     df_insert(B_nameEntry, 0, ISBN_check[0][1])
                     df_insert(B_DWirEntry, 0, ISBN_check[0][2])
@@ -49,6 +50,22 @@ def book_delete(main) :    #도서수정(매개변수 = 초기화면)  #나중�
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
     
+    def re():
+        B_nameEntry.config(state='normal')
+        B_DPubEntry.config(state='normal')
+        B_DISBNEntry.config(state='normal')
+        B_DLinkEntry.config(state='normal')
+        B_DWirEntry.config(state='normal')
+        B_DPriEntry.config(state='normal')
+        B_DIntrscr.config(state='normal')
+        B_nameEntry.delete(0, "end")
+        B_DPubEntry.delete(0, "end")
+        B_DISBNEntry.delete(0, "end")
+        B_DLinkEntry.delete(0, "end")
+        B_DWirEntry.delete(0, "end")
+        B_DPriEntry.delete(0, "end")
+        B_DIntrscr.delete("1.0", "end")
+              
     def df_insert(del_entry,num, ISBN):
         del_entry.insert(num,ISBN)
         del_entry.config(state='disabled')
