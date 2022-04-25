@@ -4,39 +4,44 @@ from user_Pandas_Class import*
 from tkinter import messagebox
 
 
-def user_modify(main) :    # 회원 수정(매개변수 = 초기화면)  #나중에 다른파일과 함수로 연결할거임
+def user_modify(main) :    # 회원 수정(매개변수 = 초기화면)
 
     # 수정 버튼을 클릭했을 때 호출되는 이벤트 핸들러
     def modify():
-        print('수정 버튼 클릭')
-        # 빈칸이 있으면
+        ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(entry_num3.get())  # str로 전화번호 저장
+        #us_num = pile.user_check(ph_num)
+        us_rent = pile.user_delete(ph_num)
         if len(entry_name.get()) == 0 or len(entry_birth.get()) == 0 or len(entry_num1.get()) == 0 or len(
                 entry_num2.get()) == 0 or len(entry_num3.get()) == 0 or len(entry_mail.get()) == 0:
-            messagebox.showinfo('도서 관리 프로그램 메시지', '빈칸이 존재합니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
+            messagebox.showerror('도서 관리 프로그램 메시지', '빈칸이 존재합니다.')  # 빈칸이 있으면 메시지박스 출력 후 수정화면창으로 돌아감
 
-        # 전화번호 중복 되면 (아직 구현 x)
-        # 메시지박스 출력 후 수정화면창으로 돌아감
+        #elif us_num:  # 전화번호 중복 되면 (아직 구현 x)
+        #    messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.') # 메시지박스 출력 후 수정화면창으로 돌아감
 
-        # 대여중인 회원이면  (아직 구현 x)
-        # 메시지박스 출력 후 수정화면창으로 돌아감
+        elif us_rent:  # 대여중인 회원이면
+            messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
 
         else:
             check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '수정하시겠습니까?')  # 수정을 묻는 메시지박스 출력 (예, 아니오)
             if check_yn == 1:  # '예'를 누를경우
-                # csv파일 데이터 수정 (아직 구현 x)
-                messagebox.showinfo('알림', '수정되었습니다.')  # 수정되었다는 메시지박스 출력 (확인)
-                # 엔트리와 텍스트의 내용을 비움
-                entry_name.delete(0, 'end')
-                entry_birth.delete(0, 'end')
-                entry_num1.delete(0, 'end')
-                entry_num2.delete(0, 'end')
-                entry_num3.delete(0, 'end')
-                entry_mail.delete(0, 'end')
+                sex = pile.sex_change(radio_sex.get())
+                us_list = pile.user_modify(entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
+                if us_list:
+                    messagebox.showerror('도서 관리 프로그램 메시지', '등록되지 않은 회원입니다.')
+                else:
+                    messagebox.showinfo('알림', '수정되었습니다.')  # 수정되었다는 메시지박스 출력 (확인)
+                    # 엔트리와 텍스트의 내용을 비움
+                    entry_name.delete(0, 'end')
+                    entry_birth.delete(0, 'end')
+                    entry_num1.delete(0, 'end')
+                    entry_num2.delete(0, 'end')
+                    entry_num3.delete(0, 'end')
+                    entry_mail.delete(0, 'end')
             else:  # '아니오'를 누를경우
                 messagebox.showinfo('알림', '수정이 취소되었습니다.')  # 메시지박스 출력
                 # 수정화면창으로 돌아감 (내용을 비우지 않음)
 
-
+    pile = Main('user_list.csv', 'Book_rent.csv')
     frame = Frame(main)
 
     label_append = Label(frame, text='회원수정') # '회원수정' 레이블 생성 글자크기 설정

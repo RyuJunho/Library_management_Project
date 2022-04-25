@@ -16,12 +16,13 @@ def user_append(main): #회원등록(매개변수 = 초기화면)
         else:
             check_yn = messagebox.askokcancel('도서 관리 프로그램 메시지', '회원을 등록하시겠습니까?')  # 등록을 묻는 메시지박스 출력 (예, 아니오)
             if check_yn == 1:  # '예'를 누를경우
-                user_pi = Main('user_list.csv')
+                pile = Main('user_list.csv', 'Book_rent.csv')
                 ph_num = str(entry_num1.get()) + '-' + str(entry_num2.get()) + '-' + str(entry_num3.get()) # str로 전화번호 저장
-                us_list = user_pi.user_append(entry_name.get(), entry_birth.get(), radio_sex.get(), ph_num, entry_mail.get())
-                if us_list: # 중복된 전화번호일 경우
+                sex = pile.sex_change(radio_sex.get())
+                us_list = pile.user_append(entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
+                if us_list:  # 중복된 전화번호일 경우
                     messagebox.showinfo("도서 관리 프로그램 메시지", "이미 등록된 전화번호입니다.")  # 메시지박스 출력 후 등록화면창으로 돌아감
-                else: #아닐 경우
+                else:  # 아닐 경우
                     messagebox.showinfo('알림', '등록되었습니다.')  # 등록되었다는 메시지박스 출력 (확인)
                     entry_name.delete(0, 'end')  # 엔트리와 텍스트의 내용을 비움
                     entry_birth.delete(0, 'end')
