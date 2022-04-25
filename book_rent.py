@@ -32,14 +32,14 @@ def book_rent(main):
         return_date = (datetime.today() + timedelta(14)).strftime("%Y-%m-%d")  # 대여 기간 계산
         book_Pandas.book_rent(user_num, getValue[0], getValue[2], rent_date, return_date)
         messagebox.showinfo("도서 관리 프로그램", "대출되었습니다.\n(반납예정일 : " + return_date + ")")
+        user_num = ''
         phone_serch.destroy()  # 확인을 누르면 창 닫기
         rent_main.destroy()
 
     # 도서 검색 클래스
     def search():
-        srh_np = book_Pandas.book_search(Rent_Box.get(), Rent_ShrEntry.get())
-        print(srh_np)
         re(Rent_ShrTreeV)
+        srh_np = book_Pandas.book_search(Rent_Box.get(), Rent_ShrEntry.get())
         for i in srh_np.tolist():
             Rent_ShrTreeV.insert('', 'end', text=i, values=i)
 
@@ -47,6 +47,7 @@ def book_rent(main):
     def re(Treeview):
         for row in Treeview.get_children():
             Treeview.delete(row)
+        Treeview.update()
 
             # 트리뷰 클릭 이벤트
 
@@ -54,7 +55,10 @@ def book_rent(main):
         selectedItem = Rent_ShrTreeV.focus()
         global getValue
         getValue = Rent_ShrTreeV.item(selectedItem, 'values')
-        Book_info()  # 새창 불러오는 함수 사용
+        if getValue == '':
+            pass
+        else:
+            Book_info()  # 새창 불러오는 함수 사용
     
     def user_list(list):
         global user_num
@@ -168,7 +172,7 @@ def book_rent(main):
         B_RIntrscr.grid(row=4, column=1)
 
         book_bookC_np = book_Pandas.ISBN_check(int(getValue[2]))
-
+        
         df_insert(B_RISBNEntry, 0, book_bookC_np[0][0])
         df_insert(B_RnameEntry, 0, book_bookC_np[0][1])
         df_insert(B_RWirEntry, 0, book_bookC_np[0][2])
