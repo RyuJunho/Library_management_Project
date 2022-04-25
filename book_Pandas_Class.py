@@ -74,7 +74,7 @@ class Panda:
         elif (check_df['대여여부'] == True).any():
             if (rent_df['ISBN'] == int(rent_ISBN)).any():
                 print("대여 완료 됐습니다.\n")
-                self.user_rent_df.loc[self.user_rent_df.ISBN == int(rent_ISBN), ('대여여부', '대여일', '반납예정일')] = (False, rent_date, return_date)  # ISBN을 기준으로 수정하고자 하는 컬럼의 데이터 수정
+                self.user_rent_df.loc[self.user_rent_df.ISBN == int(rent_ISBN), ('전화번호', '대여여부', '대여일', '반납예정일')] = (check_Phone, False, rent_date, return_date)  # ISBN을 기준으로 수정하고자 하는 컬럼의 데이터 수정
                 self.Book_df.loc[self.Book_df.ISBN == int(rent_ISBN), ('대여여부')] = (False)
                 self.Book_df.to_csv('Book_list.csv', encoding='utf-8', index=False)  # 등록된 데이터프레임을 확인하는 csv 파일 생성
                 self.user_rent_df.to_csv('Book_rent.csv', encoding='utf-8', index=False)  # 대여한 데이터를 확인하기 위한 csv 파일 생성
