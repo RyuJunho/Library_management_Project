@@ -8,18 +8,24 @@ from datetime import datetime, timedelta
 
 def book_rent(main):
     # 전화번호로 회원을 확인
+    # 전화번호로 회원을 확인
     def Phone_input():
-        print("전화번호 입력")
-        book_userC_p = book_Pandas.user_check(P_ShrEntry.get())
-        print(book_userC_p[0][0])
-        if book_userC_p[0][0] == P_ShrEntry.get():  # 전화번호가 동일한지(임시데이터)
-            PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", book_userC_p[0][1] + "님이 맞으십니까?")
-            if PhoneCheckBox == 1:
-                # phone_serch.destroy() # 확인을 누르면 창 닫기
-                pass
-        else:
-            messagebox.showerror("도서 관리 프로그램", "존재하지 않는 회원입니다.")
+        if len(P_ShrEntry.get()) == 13: #전화번호 형식인지 확인
+            try :
+                phone = str(P_ShrEntry.get())
+                user_data_list = book_Pandas.user_check(phone)[0]   #전화번호로 회원데이터 추출
+                print(user_data_list)
+            except :
+                messagebox.showerror("도서 관리 프로그램", "존재하지 않는 회원입니다.")
+                return False
 
+            PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", user_data_list[0]+"님이 맞으십니까?")
+            if PhoneCheckBox == 1:
+                rent_insert(user_data_list[0])
+
+        else:
+            messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
+            
     # 도서 대출 버튼
     def book_rentButton(rent_main):
         rent_date = (datetime.today()).strftime("%Y-%m-%d")  # 대여일

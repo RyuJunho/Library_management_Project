@@ -9,12 +9,14 @@ def book_return(main) :
     def Phone_input():
         if len(P_ShrEntry.get()) == 13: #전화번호 형식인지 확인
             try :
-                user_data_list = book_Pandas.user_check(P_ShrEntry.get())[0].tolist()   #전화번호로 회원데이터 추출
+                phone = str(P_ShrEntry.get())
+                user_data_list = book_Pandas.user_check(phone)[0]   #전화번호로 회원데이터 추출
+                print(user_data_list)
             except :
                 messagebox.showerror("도서 관리 프로그램", "존재하지 않는 회원입니다.")
                 return False
 
-            PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", user_data_list[1]+"님이 맞으십니까?")
+            PhoneCheckBox = messagebox.askokcancel("도서 관리 프로그램", user_data_list[0]+"님이 맞으십니까?")
             if PhoneCheckBox == 1:
                 rent_insert(user_data_list[0])
 

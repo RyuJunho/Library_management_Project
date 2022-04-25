@@ -9,10 +9,10 @@ from user_search import*
 from user_append import*
 from user_modify import*
 from user_delete import*
-from phone_search import*
 
 #1주차 회의록을 참조하여 설계 할 것
 #GUI 메인화면을 이 파일에서 설계
+#이벤트 처리기 기능은 구현은 하지말고 주석으로 설명 달아놓을 것
 
 # 이벤트 핸들러 ##################################################################################
 
@@ -107,8 +107,7 @@ width = 1000
 height = 600
 x = (sw/2) - (width/2)
 y = (sh/2) - (height/2)
-main.geometry('%dx%d+%d+%d' % (width, height, x, y)) # 메인창 중앙에 출력되도록 설정
-main.resizable(width=False, height=False) #메인창 크기 고정
+main.geometry('%dx%d+%d+%d' % (width, height, x, y)) #메인창 크기 고정, 중앙에 출력되도록 설정
 
 global frame
 frame = Frame(main)
