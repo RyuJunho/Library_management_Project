@@ -24,7 +24,6 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
                     df_insert(B_MPriEntry, 0, ISBN_check[0][4])
                     df_insert(B_MLinkEntry, 0, ISBN_check[0][5])
                     df_insert(B_MIntrscr, "1.0", ISBN_check[0][6])
-                    B_MISBNEntry.config(state='disabled')
         else:
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
     
@@ -59,7 +58,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
             # csv파일 데이터 수정
             if MobCheckBox == 1:
                 if B_MISBNEntry.get().isdigit() and B_MPriEntry.get().isdigit(): # 가격과 ISBN이 숫자인 경우
-                    book_modify_p = book_Pandas.book_modify(B_MISBNEntry.get(),B_MnameEntry.get(), B_MWirEntry.get(), B_MPubEntry.get(), 
+                    book_modify_p = book_Pandas.book_modify(ISBN_Entry.get(),B_MISBNEntry.get(),B_MnameEntry.get(), B_MWirEntry.get(), B_MPubEntry.get(), 
                                                             B_MPriEntry.get(), B_MLinkEntry.get(), B_MIntrscr.get("1.0", "end"))
                     if book_modify_p == True:
                         # 수정되었다는 메시지박스 출력 (확인)
