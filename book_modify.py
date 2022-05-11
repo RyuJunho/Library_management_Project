@@ -57,7 +57,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
             # '예'를 누를경우
             # csv파일 데이터 수정
             if MobCheckBox == 1:
-                if B_MISBNEntry.get().isdigit() and B_MPriEntry.get().isdigit(): # 가격과 ISBN이 숫자인 경우
+                if B_MISBNEntry.get().isdigit() and B_MPriEntry.get().isdigit() and B_MISBNEntry.get().isdecimal(): # 가격과 ISBN이 숫자인 경우
                     book_modify_p = book_Pandas.book_modify(ISBN_Entry.get(),B_MISBNEntry.get(),B_MnameEntry.get(), B_MWirEntry.get(), B_MPubEntry.get(), 
                                                             B_MPriEntry.get(), B_MLinkEntry.get(), B_MIntrscr.get("1.0", "end"))
                     if book_modify_p == True:
@@ -66,7 +66,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
                         # 엔트리와 텍스트의 내용을 비움
                         re()
                     else:
-                        messagebox.showerror("도서 관리 프로그램", "등록되지 않은 도서입니다.")
+                        messagebox.showerror("도서 관리 프로그램", "중복된 ISBN을 가진 도서입니다.")
                 else:
                     messagebox.showerror("도서 관리 프로그램", "ISBN과 가격은 숫자를 입력해주세요.")
                 
