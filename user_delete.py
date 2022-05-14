@@ -38,7 +38,7 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
             entry_num2.configure(state='disabled')  # '전화번호2' 엔트리를 읽기전용으로 상태설정
             entry_num3.configure(state='disabled')  # '전화번호3' 엔트리를 읽기전용으로 상태설정
             if data_in[0][2]:
-                radio_sex.set(1)  # 여자
+                radio_sex.set(2)  # 남자
                 radio_wo.configure(state='disabled')  # '여자' 라디오 버튼을 읽기전용으로 상태설정
                 radio_man.configure(state='disabled')  # '남자' 라디오 버튼을 읽기전용으로 상태설정
                 us_list = pile.user_rent(num_Entry.get())  # 콤보박스, 엔트리 받아와서 저장
@@ -49,7 +49,7 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
                     for i in us_list.tolist():
                         treeview.insert('', 'end', text=i, values=i)
             else:
-                radio_sex.set(2)  # 남자
+                radio_sex.set(1)  # 여자
                 radio_wo.configure(state='disabled')  # '여자' 라디오 버튼을 읽기전용으로 상태설정
                 radio_man.configure(state='disabled')  # '남자' 라디오 버튼을 읽기전용으로 상태설정
                 us_list = pile.user_rent(num_Entry.get())  # 콤보박스, 엔트리 받아와서 저장
@@ -137,8 +137,13 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
     entry_mail.grid(row=6, column=2) # '이메일' 엔트리를 main에 부착
 
 
-    treeview = Treeview(frame, columns=['대출', '반납'], displaycolumns=['대출', '반납'], show='headings', height=1)
-    treeview.grid(row=3, column=1, pady=40)
+    treeview = Treeview(frame, columns=['대출', '반납'], displaycolumns=['대출', '반납'], show='headings', height=3)
+    treeview.grid(row=3, column=1, pady=20)
+
+    scroll = Scrollbar(frame, orient="vertical", command=treeview.yview)
+    scroll.grid(row=3, column=2, sticky=NS)
+    treeview.configure(yscrollcommand=scroll.set)
+
 
     treeview.column('대출', width=170, anchor="center")
     treeview.heading('대출', text='대출 목록', anchor="center")
@@ -146,8 +151,9 @@ def user_delete(main) :    # 회원 탈퇴 (매개변수 = 초기화면)
     treeview.column('반납', width=120, anchor="center")
     treeview.heading('반납', text='반납 예정일', anchor="center")
 
+
     us_plus = Button(frame, text='탈퇴', width=5, command=delete) # '탈퇴'버튼 생성 (command = delete)
-    us_plus.grid(row=4, column=1, pady=5)   # 버튼을 main 부착
+    us_plus.grid(row=4, column=1, pady=25)   # 버튼을 main 부착
 
 
     return frame

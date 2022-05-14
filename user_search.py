@@ -1,4 +1,4 @@
-from tkinter import *       
+from tkinter import *
 from tkinter.ttk import *
 from user_Pandas_Class import*
 
@@ -33,9 +33,12 @@ def user_search(main) : #회원검색(매개변수 = 초기화면)
 
     search_frame.pack()
 
-    user_view = Treeview(frame, columns=["name", "num", "sex", "del"], displaycolumns=["name", "num", "sex", "del"], show='headings') #트리뷰(표) 생성
-    user_view.pack(pady=20) #표를 main에 부착
+    user_view = Treeview(frame, columns=["name", "num", "sex", "del"], displaycolumns=["name", "num", "sex", "del"], show='headings', height=10) #트리뷰(표) 생성
+    user_view.pack(side='left', pady=20) #표를 main에 부착
 
+    scroll = Scrollbar(frame, orient="vertical", command=user_view.yview)
+    scroll.pack(side='right', fill='y')
+    user_view.configure(yscrollcommand=scroll.set)
 
     #각 컬럼 설정
     user_view.column("name", width=80, anchor="center") #이름 컬럼
@@ -49,11 +52,6 @@ def user_search(main) : #회원검색(매개변수 = 초기화면)
 
     user_view.column("del", width=80, anchor="center") #탈퇴여부 컬림
     user_view.heading("del", text="탈퇴여부")
-
-
-    #표에 삽입될 데이터 (아직 구현 x)
-
-    #표에 데이터 삽입 (아직 구현 x)
 
 
     return frame

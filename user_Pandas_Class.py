@@ -11,10 +11,29 @@ class Main:
     def user_search(self, combox, in_nanum): # 회원 검색
         if combox == '이름':
             search = np.array(self.USER.loc[self.USER['이름'].str.contains(in_nanum), ['이름', '전화번호', '성별', '탈퇴여부']])  # contains 특정단어검색 loc 행단위 출력
-            print('이름')
+            for index, value in enumerate(search[:, 2]):
+                if value:
+                    search[index, 2] = '남자'
+                elif not value:
+                    search[index, 2] = '여자'
+            for index, value in enumerate(search[:, 3]):
+                if value:
+                    search[index, 3] = 'O'
+                elif not value:
+                    search[index, 3] = 'X'
             return search
         elif combox == '전화번호':
             search = np.array(self.USER.loc[self.USER['전화번호'].str.contains(in_nanum), ['이름', '전화번호', '성별', '탈퇴여부']])
+            for index, value in enumerate(search[:, 2]):
+                if value:
+                    search[index, 2] = '남자'
+                elif not value:
+                    search[index, 2] = '여자'
+            for index, value in enumerate(search[:, 3]):
+                if value:
+                    search[index, 3] = 'O'
+                elif not value:
+                    search[index, 3] = 'X'
             return search
         else:
             messagebox.showerror('알림', '잘못 입력하셨습니다.')
@@ -66,13 +85,13 @@ class Main:
 
     def user_rent(self, phone):  # 회원 탈퇴 - 도서 트리뷰 추가
         del_tree = self.RENT[(self.RENT['전화번호'] == phone)]
-        if (del_tree['전화번호'] == phone).any():
-            search = np.array(self.RENT.loc[self.RENT['전화번호'].str.contains(phone), ['제목', '반납예정일']])
-            return search
-        else:
-            print('대여중인 도서가 없습니다.')
-            search = np.array([None, None])
-            return search
+        #if (del_tree['전화번호'] == phone).any():
+        search = np.array(self.RENT.loc[self.RENT['전화번호'].str.contains(phone), ['제목', '반납예정일']])
+        return search
+        #else:
+        #    print('대여중인 도서가 없습니다.')
+        #    search = np.array([None, None])
+        #    return search
 
     def phone_cut(self, phone):
         phone1 = phone[0:3]
