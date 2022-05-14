@@ -18,9 +18,9 @@ class Main:
                     search[index, 2] = '여자'
             for index, value in enumerate(search[:, 3]):
                 if value:
-                    search[index, 3] = 'O'
-                elif not value:
                     search[index, 3] = 'X'
+                elif not value:
+                    search[index, 3] = 'O'
             return search
         elif combox == '전화번호':
             search = np.array(self.USER.loc[self.USER['전화번호'].str.contains(in_nanum), ['이름', '전화번호', '성별', '탈퇴여부']])
@@ -57,6 +57,17 @@ class Main:
             self.USER = self.USER.sort_values(by=['이름'], axis=0)
             self.USER.to_csv('user_list.csv', index=False)
             return True
+
+    def user_modi(self, ph_in, name, birth, sex, phone, email):
+        if ph_in == phone:
+            self.USER.loc[self.USER.전화번호 == ph_in, ('이름', '생년월일', '성별', '전화번호', '이메일', '탈퇴여부')] = (
+                name, birth, sex, phone, email, True)
+            self.USER = self.USER.sort_values(by=['이름'], axis=0)
+            self.USER.to_csv('user_list.csv', index=False)
+            return True
+        else:
+            return False
+
 
     def user_delete(self, rent):  # 회원 탈퇴 - 회원 대여여부 검색
         if (self.RENT['전화번호'] == rent).any():
@@ -107,7 +118,7 @@ class Main:
             sex = True
             return sex
 
-    def user_ren(self, rent):  # 회원 대여여부 검색
+    def user_ren(self, rent):  # 회원 수정 - 대여여부 검색
         if (self.RENT['전화번호'] == rent).any():
             print('책을 대여 중인 회원입니다.\n')
             return True
