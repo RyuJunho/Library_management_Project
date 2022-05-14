@@ -21,15 +21,16 @@ def user_modify(main):  # 회원 수정(매개변수 = 초기화면)
                         entry_num3.get())  # str로 전화번호 저장
                     us_list = pile.user_modify(num_Entry.get(), entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
                     if us_rent:  # 대여중인 회원이면
-                        messagebox.showerror('도서 관리 프로그램 메시지', '대여중인 회원입니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
-                    elif not us_rent:
-                        if num_Entry.get() == ph_num:
-                            pu_()
-                        elif num_Entry.get() != ph_num:
-                            if us_list:
-                                pu_()
-                            elif us_list is False:
-                                messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')
+                        messagebox.showerror('도서 관리 프로그램 메시지', '대여중인 회원은 수정이 불가능합니다.')  # 메시지박스 출력 후 수정화면창으로 돌아감
+                    elif not us_rent:  # 대여중이 아닐 때
+                        us_li = pile.user_modi(num_Entry.get(), entry_name.get(), entry_birth.get(), sex, ph_num, entry_mail.get())
+                        if us_li:  # 입력한 전화번호와 수정 화면에 전화번호가 같을 때
+                            pu_()  # 수정가능
+                        elif us_li is False:  # 입력한 전화번호와 수정 화면에 전화번호가 다를 때
+                            if us_list:  # 다른 회원과 전화번호가 다를 때
+                                pu_()  # 수정가능
+                            elif us_list is False:  # 다른 회원과 전화번호가 같을 때
+                                messagebox.showerror('도서 관리 프로그램 메시지', '중복된 전화번호입니다.')  # 수정 불가능
                 else:
                     messagebox.showerror('알림', '형식에 맞게 입력하세요.')  # 메시지 박스를 뜨운 후 등록화면창으로 돌아감 (내용을 비우지 않음)
             # 전화번호 중복 되면
@@ -51,9 +52,9 @@ def user_modify(main):  # 회원 수정(매개변수 = 초기화면)
             entry_num2.insert(0, ph2)
             entry_num3.insert(0, ph3)
             if data_in[0][2]:
-                radio_sex.set(1)  # 여자
-            else:
                 radio_sex.set(2)  # 남자
+            else:
+                radio_sex.set(1)  # 여자
         elif not us_num:
             messagebox.showerror('알림', '존재하지 않은 회원입니다.')
 
