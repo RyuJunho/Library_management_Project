@@ -10,11 +10,13 @@ class Panda:
     def book_search(self, combo, data_search):  # 도서 검색
         if combo == "제목":  # 콤보 박스를 제목으로 선택했을 때
             self.T_search_np = np.array(self.Book_df.loc[self.Book_df['제목'].str.contains(data_search), ['제목', '저자', 'ISBN', '대여여부']])  # 제목 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
-            print("제목")
+            self.T_search_np = np.where(self.T_search_np == True, "대여가능", self.T_search_np) # 대여여부가 True면 대여 가능으로 변환하여 출력
+            self.T_search_np = np.where(self.T_search_np == False, "대여불가능", self.T_search_np)  # 대여여부가 False면 대여 가능으로 변환하여 출력
             return self.T_search_np
         elif combo == "저자":  # 콤보 박스를 저자로 선택했을 때
             self.A_search_np = np.array(self.Book_df.loc[self.Book_df['저자'].str.contains(data_search), ['제목', '저자', 'ISBN', '대여여부']])  # 저자 데이터가 일부분이라도 포함되어 있으면 제목, 저자, ISBN, 대여여부 순으로 출력
-            print("저자")
+            self.A_search_np = np.where(self.A_search_np == True, "대여가능", self.A_search_np) # 대여여부가 True면 대여 가능으로 변환하여 출력
+            self.A_search_np = np.where(self.A_search_np == False, "대여불가능", self.A_search_np)  # 대여여부가 False면 대여 가능으로 변환하여 출력
             return self.A_search_np
             
     def book_append(self, check_ISBN, title, author, pub, price, link, explanation):  # 도서 추가
