@@ -28,11 +28,11 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
             messagebox.showerror("도서 관리 프로그램", "형식에 맞게 입력해주세요.")
     
     # 엔트리에 데이터 삽입
-    def df_insert(rent_entry, num, data):
-        rent_entry.insert(num, data)
+    def df_insert(mod_entry, num, data):
+        mod_entry.insert(num, data)
         
     def re():
-        B_MISBNEntry.config(state='normal')
+        B_MISBNEntry.delete(0, "end")
         B_MnameEntry.delete(0, "end")
         B_MPubEntry.delete(0, "end")
         B_MISBNEntry.delete(0, "end")
