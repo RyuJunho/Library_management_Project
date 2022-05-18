@@ -35,7 +35,7 @@ class Panda:
     def book_modify(self, check_ISBN, ISBN, title, author, pub, price, link, explanation):  # 도서 수정
         mod_df = self.Book_df[(self.Book_df["ISBN"] == int(check_ISBN))]
         if (mod_df['ISBN'] == int(check_ISBN)).any():  # 동일한 ISBN 하나라도 있는지 확인
-            if  (self.Book_df['ISBN'] == int(ISBN)).any():
+            if  (self.Book_df['ISBN'] == int(ISBN)).any() and int(check_ISBN) != int(ISBN):
                 pass
             else:
                 self.Book_df.loc[self.Book_df.ISBN == int(check_ISBN), ('ISBN','제목', '저자', '출판사', '가격', '관련링크', '도서설명')] = (
