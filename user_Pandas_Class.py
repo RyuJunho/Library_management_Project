@@ -97,7 +97,7 @@ class Main:
     def user_rent(self, phone):  # 회원 탈퇴 - 도서 트리뷰 추가
         del_tree = self.RENT[(self.RENT['전화번호'] == phone)]
         #if (del_tree['전화번호'] == phone).any():
-        search = np.array(self.RENT.loc[self.RENT['전화번호'].str.contains(phone), ['제목', '반납예정일']])
+        search = np.array(del_tree.loc[del_tree['전화번호'].str.contains(phone), ['제목', '반납예정일']])
         return search
         #else:
         #    print('대여중인 도서가 없습니다.')
