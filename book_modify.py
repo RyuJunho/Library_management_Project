@@ -65,6 +65,7 @@ def book_modify(main) :    #도서수정(매개변수 = 초기화면)  #나중�
                         messagebox.showinfo("도서 관리 프로그램", "수정되었습니다.")
                         # 엔트리와 텍스트의 내용을 비움
                         re()
+                        ISBN_serch.destroy()
                     else:
                         messagebox.showerror("도서 관리 프로그램", "중복된 ISBN을 가진 도서입니다.")
                 else:
